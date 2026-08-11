@@ -94,7 +94,7 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@v2
         with:
           args: >
-            -Dsonar.projectKey=louis-prevosteau_richesses_monde
+            -Dsonar.projectKey=louis-prevosteau_richesses_du_monde
             -Dsonar.organization=louis-prevosteau
             -Dsonar.sources=src/core
             -Dsonar.tests=src/test
