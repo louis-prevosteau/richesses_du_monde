@@ -1,0 +1,105 @@
+name: Java CI + SonarCloud
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build-and-test:
+    name: Build & Test with Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Download JUnit Console
+        run: |
+          curl -L -o junit.jar \
+          https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.2/junit-platform-console-standalone-1.10.2.jar
+
+      - name: Download JaCoCo
+        run: |
+          curl -L -o jacoco.zip https://repo1.maven.org/maven2/org/jacoco/jacoco/0.8.11/jacoco-0.8.11.zip
+          mkdir -p jacoco
+          unzip jacoco.zip -d jacoco
+
+      - name: Compile source code
+        run: |
+          mkdir -p out
+          find src/core -name "*.java" > sources.txt
+          javac -d out @sources.txt
+
+      - name: Compile tests
+        run: |
+          find src/test -name "*.java" > test_sources.txt
+          javac -cp junit.jar:out -d out @test_sources.txt
+
+      - name: Run tests with JaCoCo
+        run: |
+          java -javaagent:jacoco/lib/jacocoagent.jar=destfile=jacoco.exec \
+          -jar junit.jar \
+          --class-path out \
+          --scan-class-path
+
+      - name: Generate JaCoCo report
+        run: |
+          java -jar jacoco/lib/jacococli.jar report jacoco.exec \
+            --classfiles out \
+            --sourcefiles src/core \
+            --xml jacoco.xml
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: jacoco.xml
+
+  sonar:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download coverage report
+        uses: actions/download-artifact@v4
+        with:
+          name: jacoco-report
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Compile source code (for Sonar)
+        run: |
+          mkdir -p out
+          find src/core -name "*.java" > sources.txt
+          javac -d out @sources.txt
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          args: >
+            -Dsonar.projectKey=louis-prevosteau_richesses_monde
+            -Dsonar.organization=louis-prevosteau
+            -Dsonar.sources=src/core
+            -Dsonar.tests=src/test
+            -Dsonar.java.binaries=out
+            -Dsonar.coverage.jacoco.xmlReportPaths=jacoco.xml
+            -Dsonar.sourceEncoding=UTF-8
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
