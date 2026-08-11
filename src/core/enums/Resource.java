@@ -1,0 +1,28 @@
+package core.enums;
+
+public enum Resource {
+    COBALT,
+    OR,
+    RIZ,
+    BLE,
+    CACAO,
+    THE,
+    CAFE,
+    PETROLE,
+    HOUILLE,
+    ACIER,
+    COTON_BRUT,
+    LAINE_BRUTE,
+    CUIVRE,
+    SUCRE,
+    ARGENT,
+    CONSTRUCTION_AUTOMOBILE,
+    CONSTRUCTION_NAVALE,
+    ALUMINIUM,
+    URANIUM,
+    FER,
+    NICKEL,
+    GAZ_NATUREL,
+    CAOUTCHOUC_NATUREL,
+    PLOMB,
+}
