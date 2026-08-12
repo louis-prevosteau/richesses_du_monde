@@ -68,7 +68,7 @@ public class PlayerTest {
         assertEquals(1, result.size());
         assertTrue(result.containsKey(Resource.PETROLE));
         assertEquals(1, result.get(Resource.PETROLE).size());
-        assertSame(product, result.get(Resource.PETROLE).getFirst());
+        assertSame(product, result.get(Resource.PETROLE).get(0));
     }
 
     @Test()
