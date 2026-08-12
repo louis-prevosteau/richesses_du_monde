@@ -2,9 +2,13 @@ package core.models;
 
 import core.cards.JokerCard;
 import core.enums.Resource;
+import core.products.IProduct;
 import core.states.IPlayerState;
+import core.states.NormalState;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +24,12 @@ public class Player {
 
     public Player(String name) {
         this.name = name;
+        this.money = 60000000;
+        this.position = 0;
+        this.boardTour = 1;
+        this.properties = new HashMap<>();
+        this.jokers = new ArrayList<>();
+        this.state = new NormalState();
     }
 
     public String getName() {
@@ -42,12 +52,36 @@ public class Player {
         return dice2;
     }
 
+    public void setDice1(int dice1) {
+        this.dice1 = dice1;
+    }
+
+    public void setDice2(int dice2) {
+        this.dice2 = dice2;
+    }
+
+    public void addProperty(IProduct product) {
+        properties
+                .computeIfAbsent(product.getResource(), k -> new ArrayList<>())
+                .add(product);
+    }
+
     public Map<Resource, List<IProduct>> getProperties() {
-        return properties;
+        Map<Resource, List<IProduct>> copy = new HashMap<>();
+        for (Map.Entry<Resource, List<IProduct>> entry : properties.entrySet()) {
+            copy.put(entry.getKey(), new ArrayList<>(entry.getValue()));
+        }
+        return copy;
     }
 
     public Map<Resource, List<IProduct>> getPropertiesByResource(Resource resource) {
-        return null;
+        List<IProduct> produits = properties.get(resource);
+        if (produits == null || produits.isEmpty()) {
+            return new HashMap<>();
+        }
+        Map<Resource, List<IProduct>> result = new HashMap<>();
+        result.put(resource, new ArrayList<>(produits));
+        return result;
     }
 
     public List<JokerCard> getJokers() {
@@ -62,30 +96,36 @@ public class Player {
         return boardTour;
     }
 
-    public void addProperty(IProduct product) {}
-
-    public void removeProperty(IProduct product) {}
+    public void removeProperty(IProduct product) {
+        properties
+                .computeIfAbsent(product.getResource(), k -> new ArrayList<>())
+                .remove(product);
+    }
 
     public int roll() {
-        return 0;
+        dice1 = random.nextInt(6) + 1;
+        dice2 = random.nextInt(6) + 1;
+        return dice1 + dice2;
     }
 
     public boolean isDouble() {
-        return false;
+        return dice1 == dice2;
     }
 
-    public void move(int steps) {}
+    public void move(int steps) {
+        position = (position + steps) % 66;
+    }
 
     public void addJoker(JokerCard card) {}
 
     public void useJoker() {}
 
-    public void pay(int amount) {}
+    public void pay(int amount) { money -= amount; }
 
-    public void receive(int amount) {}
+    public void receive(int amount) { money += amount; }
 
     public boolean canAfford(int amount) {
-        return false;
+        return money >= amount;
     }
 
     public void displayProfile() {}

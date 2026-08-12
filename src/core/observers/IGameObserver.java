@@ -1,6 +1,6 @@
 package core.observers;
 
-import core.models.IProduct;
+import core.products.IProduct;
 import core.models.Player;
 
 public interface IGameObserver {

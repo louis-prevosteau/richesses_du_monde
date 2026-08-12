@@ -1,8 +1,9 @@
-package core.models;
+package core.products;
 
 import core.enums.Continent;
 import core.enums.Region;
 import core.enums.Resource;
+import core.models.Player;
 
 public interface IProduct {
 
@@ -17,4 +18,6 @@ public interface IProduct {
     Region getRegion();
 
     String getCountry();
+
+    Player getOwner();
 }

@@ -4,7 +4,7 @@ import core.cards.CardDeck;
 import core.commands.CommandInvoker;
 import core.enums.GameState;
 import core.models.Board;
-import core.models.IProduct;
+import core.products.IProduct;
 import core.models.Player;
 import core.observers.IGameObserver;
 
