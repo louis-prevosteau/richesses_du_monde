@@ -44,7 +44,7 @@ public class PlayerTest {
     @Test()
     @DisplayName("addProduct() doit ajouter un titre d'exploitation")
     void testAddProductPropertiesContainsProduct() {
-        IProduct product = new Product(Resource.PETROLE, 15, 42, Continent.ASIA, Region.MOYEN_ORIENT, "Qatar");
+        IProduct product = new Product(Resource.PETROLE, 15, 42, Continent.ASIA_OCEANIA, Region.MOYEN_ORIENT, "Qatar");
         player.addProperty(product);
         assertTrue(player.getProperties().getOrDefault(Resource.PETROLE, Collections.emptyList()).contains(product));
     }
@@ -52,7 +52,7 @@ public class PlayerTest {
     @Test()
     @DisplayName("removeProduct() doit returer un titre d'exploitation")
     void testRemoveProductPropertiesNotContainsProduct() {
-        IProduct product = new Product(Resource.PETROLE, 15, 42, Continent.ASIA, Region.MOYEN_ORIENT, "Qatar");
+        IProduct product = new Product(Resource.PETROLE, 15, 42, Continent.ASIA_OCEANIA, Region.MOYEN_ORIENT, "Qatar");
         player.addProperty(product);
         player.removeProperty(product);
         assertFalse(player.getProperties().getOrDefault(Resource.PETROLE, Collections.emptyList()).contains(product));
@@ -61,7 +61,7 @@ public class PlayerTest {
     @Test
     @DisplayName("getPropertiesByResource(resource) doit retourner les propriétés d'une ressource donnée en paramètre")
     void testGetPropertiesByResourcePetroleReturnsTrue() {
-        IProduct product = new Product(Resource.PETROLE, 15, 42, Continent.ASIA, Region.MOYEN_ORIENT, "Qatar");
+        IProduct product = new Product(Resource.PETROLE, 15, 42, Continent.ASIA_OCEANIA, Region.MOYEN_ORIENT, "Qatar");
         player.addProperty(product);
         Map<Resource, List<IProduct>> result =
                 player.getPropertiesByResource(Resource.PETROLE);

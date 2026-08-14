@@ -1,9 +1,8 @@
 package core.enums;
 
 public enum Continent {
-    ASIA,
+    ASIA_OCEANIA,
     AFRICA,
     AMERICA,
     EUROPE,
-    OCEANIA
 }

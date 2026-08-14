@@ -58,4 +58,17 @@ public class Product implements IProduct {
     public Player getOwner() {
         return owner;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "resource=" + resource.getName() +
+                ", percentage=" + percentage +
+                ", price=" + price +
+                ", continent=" + continent +
+                ", region=" + region +
+                ", country='" + country + '\'' +
+                ", owner=" + (owner != null ? owner.getName() : "") +
+                '}';
+    }
 }
