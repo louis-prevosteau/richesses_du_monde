@@ -57,5 +57,6 @@ public class Shop {
         products
                 .computeIfAbsent(product.getRegion(), k -> new ArrayList<>())
                 .add(product);
+        System.out.println("-> Le titre a été remis dans le magasin.");
     }
 }

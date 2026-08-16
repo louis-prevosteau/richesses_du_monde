@@ -8,16 +8,32 @@ import core.products.IProduct;
 import core.models.Player;
 import core.observers.IGameObserver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameManager {
 
+    private static GameManager instance;
+    private CommandInvoker invoker;
+    private Board board;
+    private List<Player> players;
+    private GameState currentState;
+    private List<IGameObserver> observers;
+    private int currentPlayerIndex;
+    private CardDeck news, jokers;
+
     private GameManager() {
+        this.players = new ArrayList<>();
+        this.invoker = new CommandInvoker();
     }
 
-    public GameManager getInstance() { return null; }
+    public static GameManager getInstance() {
+        if (instance == null)
+            instance = new GameManager();
+        return instance;
+    }
 
-    public void addPlayer(Player player) {}
+    public void addPlayer(Player player) { players.add(player); }
 
     public void startGame() {}
 
@@ -43,15 +59,15 @@ public class GameManager {
 
     public Board getBoard() { return null; }
 
-    public List<Player> getPlayers() { return null; }
+    public List<Player> getPlayers() { return players; }
 
     public GameState getCurrentState() { return null; }
 
-    public CommandInvoker getInvoker() { return null; }
+    public CommandInvoker getInvoker() { return invoker; }
 
-    public CardDeck getNews() { return null; }
+    public CardDeck getNews() { return news; }
 
-    public CardDeck getJokers() { return null; }
+    public CardDeck getJokers() { return jokers; }
 
     public void reset() {}
 }

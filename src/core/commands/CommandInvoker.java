@@ -10,7 +10,12 @@ public class CommandInvoker {
         return history;
     }
 
-    public void executeCommand(ICommand command) {}
+    public void executeCommand(ICommand command) {
+        if (!command.canExecute())
+            throw new IllegalStateException("Commande non exécutable");
+        command.execute();
+        history.push(command);
+    }
 
     public void showHistory() {};
 
