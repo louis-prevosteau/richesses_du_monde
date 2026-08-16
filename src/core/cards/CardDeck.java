@@ -1,8 +1,6 @@
 package core.cards;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class CardDeck implements Iterable<ICard> {
 
@@ -11,47 +9,56 @@ public class CardDeck implements Iterable<ICard> {
 
     public CardDeck() {
         this.cards = new ArrayList<>();
+        this.currentIndex = 0;
     }
 
     public List<ICard> getCards() {
         return cards;
     }
 
-    public void addCard(ICard card) {}
+    public void addCard(ICard card) { cards.add(card); }
 
-    public void shuffle() {}
+    public void shuffle() {
+        Collections.shuffle(cards);
+    }
 
     public ICard draw() {
-        return null;
+        ICard card = cards.get(currentIndex);
+        currentIndex = (currentIndex + 1) % cards.size();
+        System.out.println("Carte tirée: " + card.getDescription());
+        return card;
     }
 
     public void returnsCard(ICard card) {}
 
     public boolean isEmpty() {
-        return false;
+        return cards.isEmpty();
     }
 
     public int getSize() {
-        return 0;
+        return cards.size();
     }
 
-    public void clear() {}
+    public void clear() { cards.clear(); }
 
     @Override
     public Iterator<ICard> iterator() {
-        return null;
+        return new CardIterator();
     }
 
     private class CardIterator implements Iterator<ICard> {
 
+        private int position;
+
         @Override
         public boolean hasNext() {
-            return false;
+            return position < cards.size();
         }
 
         @Override
         public ICard next() {
-            return null;
+            if (!hasNext()) throw new NoSuchElementException();
+            return cards.get(position++);
         }
     }
 }
