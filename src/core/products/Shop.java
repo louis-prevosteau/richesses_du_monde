@@ -17,40 +17,46 @@ public class Shop {
         this.products = new HashMap<>();
     }
 
-    public Map<Region, List<IProduct>> getProducts(Continent continent, Region region) {
-        Map<Region, List<IProduct>> copy = new HashMap<>();
-        List<IProduct> productEntries;
-        if (continent != null) {
-            for (Map.Entry<Region, List<IProduct>> entry : products.entrySet()) {
-                productEntries = entry.getValue()
-                        .stream().filter(product -> product.getContinent().equals(continent))
-                        .toList();
-                if (!productEntries.isEmpty())
-                    copy.put(entry.getKey(), productEntries);
+    public Map<Region, List<IProduct>> getProducts(
+            Continent continent,
+            Region region) {
+
+        Map<Region, List<IProduct>> result = new HashMap<>();
+
+        for (Map.Entry<Region, List<IProduct>> entry : products.entrySet()) {
+
+            List<IProduct> filtered = entry.getValue()
+                    .stream()
+                    .filter(product ->
+                            continent != null
+                                    ? continent.equals(product.getContinent())
+                                    : region == null || region.equals(product.getRegion()))
+                    .toList();
+
+            if (!filtered.isEmpty()) {
+                result.put(entry.getKey(), filtered);
             }
         }
-        else if (region != null) {
-            for (Map.Entry<Region, List<IProduct>> entry : products.entrySet()) {
-                productEntries = entry.getValue()
-                        .stream().filter(product -> product.getRegion().equals(region))
-                        .toList();
-                if (!productEntries.isEmpty())
-                    copy.put(entry.getKey(), productEntries);
-            }
-        }
-        else
-            for (Map.Entry<Region, List<IProduct>> entry : products.entrySet()) {
-                productEntries = entry.getValue();
-                if (!productEntries.isEmpty())
-                    copy.put(entry.getKey(), productEntries);
-            }
-        return copy;
+
+        return result;
     }
 
     public void addProduct(IProduct product) {
         products
                 .computeIfAbsent(product.getRegion(), k -> new ArrayList<>())
                 .add(product);
+    }
+
+    public void removeProduct(IProduct product) {
+        List<IProduct> regionProducts = products.get(product.getRegion());
+
+        if (regionProducts != null) {
+            regionProducts.remove(product);
+
+            if (regionProducts.isEmpty()) {
+                products.remove(product.getRegion());
+            }
+        }
     }
 
     public void returnsProducts(IProduct product) {

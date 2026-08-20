@@ -1,16 +1,136 @@
 package core.strategies;
 
+import core.commands.BuyProductCommand;
+import core.enums.Continent;
+import core.enums.Region;
+import core.manager.GameManager;
 import core.models.Player;
+import core.products.IProduct;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 public class BuyProductAction implements ISquareAction {
 
+    private Continent continent;
+    private Region region;
+
+    public BuyProductAction(Continent continent, Region region) {
+        this.continent = continent;
+        this.region = region;
+    }
+
     @Override
     public String getDescription() {
-        return "";
+        return "Vous pouvez acheter des produits.";
     }
 
     @Override
     public void execute(Player player) {
+        System.out.println(getDescription());
 
+        int purchasesThisTurn = 0;
+
+        while (purchasesThisTurn < 6) {
+
+            List<IProduct> availableProducts = getAvailableProducts();
+
+            if (availableProducts.isEmpty()) {
+                System.out.println("Aucun produit disponible.");
+                return;
+            }
+
+            int response = getPlayerChoice(availableProducts);
+
+            if (response == -1) {
+                System.out.println(player.getName() + " arrête ses achats.");
+                return;
+            }
+
+            if (response < 0 || response >= availableProducts.size()) {
+                System.out.println("Choix invalide.");
+                continue;
+            }
+
+            IProduct product = availableProducts.get(response);
+
+            GameManager.getInstance().getShop().removeProduct(product);
+            GameManager.getInstance().getInvoker().executeCommand(new BuyProductCommand(player, product));
+
+            purchasesThisTurn++;
+
+            System.out.println(
+                    player.getName()
+                            + " achète "
+                            + product.getResource()
+                            + " pour "
+                            + product.getPrice()
+                            + " €"
+            );
+
+            System.out.println(
+                    "Achats ce tour : "
+                            + purchasesThisTurn
+                            + "/6"
+            );
+        }
+
+        System.out.println("Limite de 6 achats atteinte pour ce tour.");
+    }
+
+    private List<IProduct> getAvailableProducts() {
+        Map<Region, List<IProduct>> products;
+
+        if (region != null) {
+            products = GameManager.getInstance()
+                    .getShop()
+                    .getProducts(null, region);
+        } else if (continent != null) {
+            products = GameManager.getInstance()
+                    .getShop()
+                    .getProducts(continent, null);
+        } else {
+            return List.of();
+        }
+
+        return products.values()
+                .stream()
+                .flatMap(List::stream)
+                .toList();
+    }
+
+    private int getPlayerChoice(List<IProduct> products) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\nProduits disponibles :");
+
+        for (int i = 0; i < products.size(); i++) {
+            IProduct product = products.get(i);
+
+            System.out.println(
+                    i + " - " + product.getResource()
+                            + " | "
+                            + product.getPercentage() + "%"
+                            + " | Prix : "
+                            + product.getPrice()
+            );
+        }
+
+        System.out.print("> ");
+
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    public Continent getContinent() {
+        return continent;
+    }
+
+    public Region getRegion() {
+        return region;
     }
 }

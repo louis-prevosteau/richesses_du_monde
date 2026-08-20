@@ -7,6 +7,7 @@ import core.models.Board;
 import core.products.IProduct;
 import core.models.Player;
 import core.observers.IGameObserver;
+import core.products.Shop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class GameManager {
     private List<IGameObserver> observers;
     private int currentPlayerIndex;
     private CardDeck news, jokers;
+    private Shop shop;
 
     private GameManager() {
         this.players = new ArrayList<>();
@@ -31,6 +33,10 @@ public class GameManager {
         if (instance == null)
             instance = new GameManager();
         return instance;
+    }
+
+    public Shop getShop() {
+        return shop;
     }
 
     public void addPlayer(Player player) { players.add(player); }

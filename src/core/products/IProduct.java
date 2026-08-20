@@ -20,4 +20,6 @@ public interface IProduct {
     String getCountry();
 
     Player getOwner();
+
+    void setOwner(Player player);
 }

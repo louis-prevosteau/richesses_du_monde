@@ -60,6 +60,11 @@ public class Product implements IProduct {
     }
 
     @Override
+    public void setOwner(Player player) {
+        this.owner = player;
+    }
+
+    @Override
     public String toString() {
         return "Product{" +
                 "resource=" + resource.getName() +
