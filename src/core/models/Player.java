@@ -15,7 +15,7 @@ import java.util.Map;
 public class Player {
 
     private String name;
-    private int money, position, dice1, dice2, boardTour;
+    private int money, position, dice1, dice2, totalDice, boardTour;
     private Map<Resource, List<IProduct>> properties;
     private List<JokerCard> jokers;
     private IPlayerState state;
@@ -102,10 +102,15 @@ public class Player {
                 .remove(product);
     }
 
+    public int getTotalDice() {
+        return totalDice;
+    }
+
     public int roll() {
         dice1 = random.nextInt(6) + 1;
         dice2 = random.nextInt(6) + 1;
-        return dice1 + dice2;
+        totalDice = dice1 + dice2;
+        return totalDice;
     }
 
     public boolean isDouble() {
@@ -116,9 +121,13 @@ public class Player {
         position = (position + steps) % 66;
     }
 
-    public void addJoker(JokerCard card) {}
+    public void addJoker(JokerCard card) {
+        jokers.add(card);
+    }
 
-    public void useJoker() {}
+    public void useJoker() {
+        jokers.removeFirst();
+    }
 
     public void pay(int amount) { money -= amount; }
 

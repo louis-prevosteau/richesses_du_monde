@@ -7,6 +7,7 @@ import core.models.Board;
 import core.products.IProduct;
 import core.models.Player;
 import core.observers.IGameObserver;
+import core.products.ProductFactory;
 import core.products.Shop;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class GameManager {
     private GameManager() {
         this.players = new ArrayList<>();
         this.invoker = new CommandInvoker();
+        this.shop = ProductFactory.createShop();
     }
 
     public static GameManager getInstance() {

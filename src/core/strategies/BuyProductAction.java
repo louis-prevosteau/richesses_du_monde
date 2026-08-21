@@ -79,7 +79,7 @@ public class BuyProductAction implements ISquareAction {
         System.out.println("Limite de 6 achats atteinte pour ce tour.");
     }
 
-    private List<IProduct> getAvailableProducts() {
+    public List<IProduct> getAvailableProducts() {
         Map<Region, List<IProduct>> products;
 
         if (region != null) {
