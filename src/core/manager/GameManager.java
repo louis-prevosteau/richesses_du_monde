@@ -23,7 +23,7 @@ public class GameManager {
     private GameState currentState;
     private List<IGameObserver> observers;
     private int currentPlayerIndex;
-    private CardDeck news, jokers;
+    private final CardDeck news, jokers;
     private Shop shop;
 
     private GameManager() {
@@ -31,6 +31,8 @@ public class GameManager {
         this.observers = new ArrayList<>();
         this.invoker = new CommandInvoker();
         this.shop = ProductFactory.createShop();
+        this.news = CardFactory.createNewsDeck();
+        this.jokers = CardFactory.createJokerDeck();
     }
 
     public static GameManager getInstance() {
@@ -83,8 +85,6 @@ public class GameManager {
         players.clear();
         observers.clear();
         currentState = GameState.WAITING;
-        news = CardFactory.createNewsDeck();
-        jokers = CardFactory.createJokerDeck();
         invoker = new CommandInvoker();
     }
 }

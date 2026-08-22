@@ -23,16 +23,24 @@ public class DrawCardCommand implements ICommand {
     @Override
     public void execute() {
         System.out.println(getDescription());
-        ICard card;
-        if (type.equals(CardType.NEWS))
-            card = GameManager.getInstance().getNews().draw();
-        else
-            card = GameManager.getInstance().getJokers().draw();
-        card.apply(player);
+
+        GameManager manager = GameManager.getInstance();
+
+        ICard card = CardType.NEWS.equals(type)
+                ? manager.getNews().draw()
+                : manager.getJokers().draw();
+
+        if (card != null) {
+            card.apply(player);
+        }
     }
 
     @Override
     public boolean canExecute() {
-        return !GameManager.getInstance().getJokers().isEmpty() && !GameManager.getInstance().getNews().isEmpty();
+        GameManager manager = GameManager.getInstance();
+        return manager.getNews() != null
+                && manager.getJokers() != null
+                && !manager.getNews().isEmpty()
+                && !manager.getJokers().isEmpty();
     }
 }
