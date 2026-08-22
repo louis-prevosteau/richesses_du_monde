@@ -6,6 +6,7 @@ import core.enums.CardType;
 import core.enums.Continent;
 import core.enums.Region;
 import core.enums.Resource;
+import core.manager.GameManager;
 import core.models.Player;
 import core.products.IProduct;
 import core.products.Product;
@@ -70,5 +71,15 @@ public class CommandTest {
         command.execute();
         assertTrue(player.getProperties().getOrDefault(Resource.PETROLE, Collections.emptyList()).contains(product));
         assertEquals(product.getOwner(), player);
+    }
+
+    @Test()
+    @DisplayName("DrawCardCommand doit tirer une carte Actualités et appliqué son effet au joueur")
+    void testDrawCardCommandNewsApplyingEffect() {
+        int initMoney = player.getMoney();
+        GameManager.getInstance().reset();
+        command = new DrawCardCommand(player, CardType.NEWS);
+        command.execute();
+        assertTrue(player.getMoney() != initMoney);
     }
 }

@@ -1,6 +1,7 @@
 package core.manager;
 
 import core.cards.CardDeck;
+import core.cards.CardFactory;
 import core.commands.CommandInvoker;
 import core.enums.GameState;
 import core.models.Board;
@@ -27,6 +28,7 @@ public class GameManager {
 
     private GameManager() {
         this.players = new ArrayList<>();
+        this.observers = new ArrayList<>();
         this.invoker = new CommandInvoker();
         this.shop = ProductFactory.createShop();
     }
@@ -77,5 +79,12 @@ public class GameManager {
 
     public CardDeck getJokers() { return jokers; }
 
-    public void reset() {}
+    public void reset() {
+        players.clear();
+        observers.clear();
+        currentState = GameState.WAITING;
+        news = CardFactory.createNewsDeck();
+        jokers = CardFactory.createJokerDeck();
+        invoker = new CommandInvoker();
+    }
 }
