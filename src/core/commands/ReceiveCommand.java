@@ -4,8 +4,8 @@ import core.models.Player;
 
 public class ReceiveCommand implements ICommand {
 
-    private Player player;
-    private int amount;
+    private final Player player;
+    private final int amount;
 
     public ReceiveCommand(Player player, int amount) {
         this.player = player;

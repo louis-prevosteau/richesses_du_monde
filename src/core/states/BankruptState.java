@@ -6,7 +6,7 @@ public class BankruptState implements IPlayerState {
 
     @Override
     public void takeTurn(Player player) {
-
+        System.out.println(player.getName() + " est en faillite et ne peut plus jouer");
     }
 
     @Override
@@ -21,6 +21,6 @@ public class BankruptState implements IPlayerState {
 
     @Override
     public String getName() {
-        return "";
+        return "Faillite";
     }
 }

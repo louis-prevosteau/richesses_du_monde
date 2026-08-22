@@ -5,8 +5,8 @@ import core.products.IProduct;
 
 public class BuyProductCommand implements ICommand {
 
-    private Player player;
-    private IProduct product;
+    private final Player player;
+    private final IProduct product;
 
     public BuyProductCommand(Player player, IProduct product) {
         this.player = player;

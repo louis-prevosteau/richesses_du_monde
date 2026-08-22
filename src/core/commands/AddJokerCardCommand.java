@@ -5,8 +5,8 @@ import core.models.Player;
 
 public class AddJokerCardCommand implements ICommand {
 
-    private Player player;
-    private JokerCard card;
+    private final Player player;
+    private final JokerCard card;
 
     public AddJokerCardCommand(Player player, JokerCard card) {
         this.player = player;

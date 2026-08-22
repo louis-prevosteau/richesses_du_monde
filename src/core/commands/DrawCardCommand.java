@@ -7,8 +7,8 @@ import core.models.Player;
 
 public class DrawCardCommand implements ICommand {
 
-    private Player player;
-    private CardType type;
+    private final Player player;
+    private final CardType type;
 
     public DrawCardCommand(Player player, CardType type) {
         this.player = player;

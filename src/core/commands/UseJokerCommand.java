@@ -4,7 +4,7 @@ import core.models.Player;
 
 public class UseJokerCommand implements ICommand {
 
-    private Player player;
+    private final Player player;
 
     public UseJokerCommand(Player player) {
         this.player = player;

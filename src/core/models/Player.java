@@ -2,7 +2,10 @@ package core.models;
 
 import core.cards.JokerCard;
 import core.enums.Resource;
+import core.manager.GameManager;
 import core.products.IProduct;
+import core.products.Shop;
+import core.states.BankruptState;
 import core.states.IPlayerState;
 import core.states.NormalState;
 
@@ -138,4 +141,25 @@ public class Player {
     }
 
     public void displayProfile() {}
+
+    public void declareBankruptcy() {
+        Shop shop = GameManager.getInstance().getShop();
+
+        properties.values().stream()
+                .flatMap(List::stream)
+                .forEach(product -> {
+                    product.setOwner(null);
+                    shop.returnsProducts(product);
+                });
+        properties.clear();
+        for (JokerCard card : jokers) {
+            card.returnToDeck();
+        }
+        jokers.clear();
+        state = new BankruptState();
+    }
+
+    public void setState(IPlayerState state) {
+        this.state = state;
+    }
 }
