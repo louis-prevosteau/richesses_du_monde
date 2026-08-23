@@ -1,4 +1,4 @@
-package test;
+package test.commands;
 
 import core.cards.JokerCard;
 import core.commands.*;

@@ -12,15 +12,31 @@ public class SellResourceCommand implements ICommand {
     private final Player seller;
     private final List<IProduct> products;
     private final int startingPrice;
+    private final Scanner scanner;
 
     public SellResourceCommand(
             Player seller,
             List<IProduct> products,
             int startingPrice
     ) {
+        this(
+                seller,
+                products,
+                startingPrice,
+                new Scanner(System.in)
+        );
+    }
+
+    public SellResourceCommand(
+            Player seller,
+            List<IProduct> products,
+            int startingPrice,
+            Scanner scanner
+    ) {
         this.seller = seller;
         this.products = products;
         this.startingPrice = startingPrice;
+        this.scanner = scanner;
     }
 
     @Override
@@ -32,26 +48,33 @@ public class SellResourceCommand implements ICommand {
 
     @Override
     public void execute() {
+
         List<Player> players =
                 GameManager.getInstance().getPlayers();
+
         int currentPrice = startingPrice;
         Player highestBidder = null;
-        Scanner scanner = new Scanner(System.in);
         boolean bidPlaced;
 
         do {
+
             bidPlaced = false;
+
             for (Player player : players) {
+
                 if (player.equals(seller)) {
                     continue;
                 }
+
                 System.out.println(
                         "\n" + player.getName()
                                 + ", voulez-vous enchérir ?"
                 );
+
                 System.out.println(
                         "Prix actuel : " + currentPrice + " €"
                 );
+
                 System.out.print(
                         "Montant (> "
                                 + currentPrice
@@ -66,7 +89,9 @@ public class SellResourceCommand implements ICommand {
                     bid = 0;
                 }
 
-                if (bid > currentPrice && player.getMoney() >= bid) {
+                if (bid > currentPrice
+                        && player.getMoney() >= bid) {
+
                     currentPrice = bid;
                     highestBidder = player;
                     bidPlaced = true;
@@ -79,18 +104,23 @@ public class SellResourceCommand implements ICommand {
                     );
                 }
             }
+
         } while (bidPlaced);
 
         if (highestBidder == null) {
+
             System.out.println(
                     "Aucune enchère. Les produits retournent au magasin."
             );
-            products.forEach(
-                    p -> GameManager.getInstance()
-                            .getShop()
-                            .returnsProducts(p)
-            );
-            products.forEach(seller::removeProperty);
+
+            for (IProduct product : products) {
+                seller.removeProperty(product);
+                product.setOwner(null);
+                GameManager.getInstance()
+                        .getShop()
+                        .addProduct(product);
+            }
+
             return;
         }
 
@@ -100,11 +130,11 @@ public class SellResourceCommand implements ICommand {
         for (IProduct product : products) {
             seller.removeProperty(product);
             highestBidder.addProperty(product);
+            product.setOwner(highestBidder);
         }
 
         System.out.println(
-                "\n"
-                        + highestBidder.getName()
+                highestBidder.getName()
                         + " remporte l'enchère pour "
                         + currentPrice
                         + " €"
