@@ -3,6 +3,7 @@ package test.strategies;
 import core.enums.Continent;
 import core.enums.Region;
 import core.enums.Resource;
+import core.manager.GameManager;
 import core.models.Player;
 import core.products.IProduct;
 import core.products.Product;
@@ -13,8 +14,10 @@ import core.strategies.ReceiveMoneyAction;
 import core.strategies.SellResourceAction;
 import org.junit.jupiter.api.*;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,6 +29,7 @@ public class SquareActionTest {
 
     @BeforeEach()
     void setUp() {
+        GameManager.getInstance().reset();
         player = new Player("Alice");
     }
 
@@ -175,5 +179,142 @@ public class SquareActionTest {
 
         assertEquals(3000000, totalPrice);
         assertEquals(1500000, totalPrice / 2);
+    }
+
+    @Test
+    @DisplayName("Le joueur peut annuler la vente")
+    void executeCanBeCancelled() {
+        IProduct product1 =
+                new Product(
+                        Resource.PETROLE,
+                        10,
+                        4_000_000,
+                        Continent.ASIA_OCEANIA,
+                        Region.MOYEN_ORIENT,
+                        "Qatar"
+                );
+
+        IProduct product2 =
+                new Product(
+                        Resource.PETROLE,
+                        15,
+                        5_000_000,
+                        Continent.ASIA_OCEANIA,
+                        Region.MOYEN_ORIENT,
+                        "Arabie Saoudite"
+                );
+
+        player.addProperty(product1);
+        player.addProperty(product2);
+        String input = "-1\n";
+
+        SellResourceAction action =
+                new SellResourceAction(
+                        new Scanner(
+                                new ByteArrayInputStream(
+                                        input.getBytes()
+                                )
+                        )
+                );
+
+        int propertyCountBefore =
+                player.getProperties()
+                        .values()
+                        .stream()
+                        .mapToInt(List::size)
+                        .sum();
+
+        action.execute(player);
+
+        int propertyCountAfter =
+                player.getProperties()
+                        .values()
+                        .stream()
+                        .mapToInt(List::size)
+                        .sum();
+
+        assertEquals(
+                propertyCountBefore,
+                propertyCountAfter
+        );
+    }
+
+    @Test
+    @DisplayName("Le joueur peut sélectionner un lot valide")
+    void executeAcceptsValidChoice() {
+        IProduct product1 =
+                new Product(
+                        Resource.PETROLE,
+                        10,
+                        4_000_000,
+                        Continent.ASIA_OCEANIA,
+                        Region.MOYEN_ORIENT,
+                        "Qatar"
+                );
+
+        IProduct product2 =
+                new Product(
+                        Resource.PETROLE,
+                        15,
+                        5_000_000,
+                        Continent.ASIA_OCEANIA,
+                        Region.MOYEN_ORIENT,
+                        "Arabie Saoudite"
+                );
+
+        player.addProperty(product1);
+        player.addProperty(product2);
+        String input = "0\n";
+
+        SellResourceAction action =
+                new SellResourceAction(
+                        new Scanner(
+                                new ByteArrayInputStream(
+                                        input.getBytes()
+                                )
+                        )
+                );
+
+        assertDoesNotThrow(
+                () -> action.execute(player)
+        );
+    }
+
+    @Test
+    @DisplayName("Les produits doivent être regroupés par ressource")
+    void playerPropertiesAreGroupedByResource() {
+        IProduct product1 =
+                new Product(
+                        Resource.PETROLE,
+                        10,
+                        4_000_000,
+                        Continent.ASIA_OCEANIA,
+                        Region.MOYEN_ORIENT,
+                        "Qatar"
+                );
+
+        IProduct product2 =
+                new Product(
+                        Resource.PETROLE,
+                        15,
+                        5_000_000,
+                        Continent.ASIA_OCEANIA,
+                        Region.MOYEN_ORIENT,
+                        "Arabie Saoudite"
+                );
+
+        player.addProperty(product1);
+        player.addProperty(product2);
+        Map<Resource, List<IProduct>> properties =
+                player.getProperties();
+
+        assertTrue(
+                properties.containsKey(Resource.PETROLE)
+        );
+
+        assertEquals(
+                2,
+                properties.get(Resource.PETROLE).size()
+        );
     }
 }
