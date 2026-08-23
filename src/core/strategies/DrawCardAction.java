@@ -25,4 +25,8 @@ public class DrawCardAction implements ISquareAction {
                 .getInvoker()
                 .executeCommand(new DrawCardCommand(player, type));
     }
+
+    public CardType getType() {
+        return type;
+    }
 }

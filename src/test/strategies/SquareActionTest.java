@@ -1,5 +1,6 @@
 package test.strategies;
 
+import core.enums.CardType;
 import core.enums.Continent;
 import core.enums.Region;
 import core.enums.Resource;
@@ -8,10 +9,7 @@ import core.models.Player;
 import core.products.IProduct;
 import core.products.Product;
 import core.products.ProductFactory;
-import core.strategies.BuyProductAction;
-import core.strategies.ISquareAction;
-import core.strategies.ReceiveMoneyAction;
-import core.strategies.SellResourceAction;
+import core.strategies.*;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayInputStream;
@@ -208,7 +206,7 @@ public class SquareActionTest {
         player.addProperty(product2);
         String input = "-1\n";
 
-        SellResourceAction action =
+        action =
                 new SellResourceAction(
                         new Scanner(
                                 new ByteArrayInputStream(
@@ -315,6 +313,47 @@ public class SquareActionTest {
         assertEquals(
                 2,
                 properties.get(Resource.PETROLE).size()
+        );
+    }
+
+    @Test
+    @DisplayName("Le type NEWS doit être correctement stocké")
+    void testNewsTypeStored() {
+        DrawCardAction action =
+                new DrawCardAction(CardType.NEWS);
+
+        assertEquals(CardType.NEWS, action.getType());
+    }
+
+    @Test
+    @DisplayName("Le type JOKER doit être correctement stocké")
+    void testJokerTypeStored() {
+        DrawCardAction action =
+                new DrawCardAction(CardType.JOKER);
+
+        assertEquals(CardType.JOKER, action.getType());
+    }
+
+    @Test
+    @DisplayName("La description doit être correcte")
+    void testDescription() {
+        DrawCardAction action =
+                new DrawCardAction(CardType.NEWS);
+
+        assertEquals(
+                "Tirer une carte",
+                action.getDescription()
+        );
+    }
+
+    @Test
+    @DisplayName("execute ne doit pas lever d'exception avec une carte NEWS")
+    void testExecuteNews() {
+        DrawCardAction action =
+                new DrawCardAction(CardType.NEWS);
+
+        assertDoesNotThrow(() ->
+                action.execute(player)
         );
     }
 }
