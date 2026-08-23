@@ -54,4 +54,13 @@ public class PlayerStateTest {
         assertFalse(player.getState().canBuy());
         assertFalse(player.getState().canPayRoyalties());
     }
+
+    @Test()
+    @DisplayName("NormalState doit changer la position du joueur")
+    void testNormalStateChangesPlayerPosition() {
+        int initPositon = player.getPosition();
+        IPlayerState state = new NormalState();
+        state.takeTurn(player);
+        assertTrue(player.getPosition() != initPositon);
+    }
 }
