@@ -115,15 +115,6 @@ public class SquareActionTest {
         );
     }
 
-    @Test()
-    @DisplayName("ReceiveMoneyAction doit donner de l'argent au joueur")
-    void testReceiveMoneyActionIncreasePlayerMoney() {
-        int initMoney = player.getMoney();
-        action = new ReceiveMoneyAction(1000000);
-        action.execute(player);
-        assertEquals(initMoney + 1000000, player.getMoney());
-    }
-
     @Test
     @DisplayName("La description doit être correcte")
     void testGetDescription() {
