@@ -5,6 +5,9 @@ import core.enums.CardType;
 import core.enums.Resource;
 import core.manager.GameManager;
 import core.models.Player;
+import core.products.IProduct;
+
+import java.util.List;
 
 public class ReceiveCard extends Card {
 
@@ -21,7 +24,8 @@ public class ReceiveCard extends Card {
     public void executeEffect(Player player) {
         System.out.println(getDescription());
         if (resource != null) {
-            if (!player.getPropertiesByResource(resource).isEmpty())
+            List<IProduct> playerProducts = player.getPropertiesByResource(resource);
+            if (playerProducts != null && !playerProducts.isEmpty())
                 GameManager.getInstance().getInvoker().executeCommand(new ReceiveCommand(player, amounts[0]));
             else
                 GameManager.getInstance().getInvoker().executeCommand(new ReceiveCommand(player, amounts[1]));
