@@ -91,7 +91,9 @@ public class BuyProductAction implements ISquareAction {
                     .getShop()
                     .getProducts(continent, null);
         } else {
-            return List.of();
+            products = GameManager.getInstance()
+                    .getShop()
+                    .getProducts(null, null);
         }
 
         return products.values()

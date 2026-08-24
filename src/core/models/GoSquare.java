@@ -4,7 +4,7 @@ public class GoSquare implements ISquare {
 
     @Override
     public String getName() {
-        return "";
+        return "Départ";
     }
 
     @Override
@@ -14,6 +14,6 @@ public class GoSquare implements ISquare {
 
     @Override
     public void landOn(Player player) {
-
+        System.out.println(player.getName() + " vous êtes sur la case " + getName());
     }
 }

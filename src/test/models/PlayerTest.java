@@ -63,12 +63,11 @@ public class PlayerTest {
     void testGetPropertiesByResourcePetroleReturnsTrue() {
         IProduct product = new Product(Resource.PETROLE, 15, 42, Continent.ASIA_OCEANIA, Region.MOYEN_ORIENT, "Qatar");
         player.addProperty(product);
-        Map<Resource, List<IProduct>> result =
+        List<IProduct>result =
                 player.getPropertiesByResource(Resource.PETROLE);
         assertEquals(1, result.size());
-        assertTrue(result.containsKey(Resource.PETROLE));
-        assertEquals(1, result.get(Resource.PETROLE).size());
-        assertSame(product, result.get(Resource.PETROLE).get(0));
+        assertEquals(1, result.size());
+        assertSame(product, result.get(0));
     }
 
     @Test()

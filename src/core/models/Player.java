@@ -77,14 +77,8 @@ public class Player {
         return copy;
     }
 
-    public Map<Resource, List<IProduct>> getPropertiesByResource(Resource resource) {
-        List<IProduct> produits = properties.get(resource);
-        if (produits == null || produits.isEmpty()) {
-            return new HashMap<>();
-        }
-        Map<Resource, List<IProduct>> result = new HashMap<>();
-        result.put(resource, new ArrayList<>(produits));
-        return result;
+    public List<IProduct> getPropertiesByResource(Resource resource) {
+        return properties.get(resource);
     }
 
     public List<JokerCard> getJokers() {
