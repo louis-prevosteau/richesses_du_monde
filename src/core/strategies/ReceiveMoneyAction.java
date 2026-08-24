@@ -6,22 +6,20 @@ import core.models.Player;
 
 public class ReceiveMoneyAction implements ISquareAction {
 
-    private Player player;
     private int amount;
 
-    public ReceiveMoneyAction(Player player, int amount) {
-        this.player = player;
+    public ReceiveMoneyAction(int amount) {
         this.amount = amount;
     }
 
     @Override
     public String getDescription() {
-        return player.getName() + " a fait un lancer : " + player.getTotalDice() + " et reçoit " + amount + " €";
+        return "Vous recevez " + amount + " €";
     }
 
     @Override
     public void execute(Player player) {
         System.out.println(getDescription());
-        GameManager.getInstance().getInvoker().executeCommand(new ReceiveCommand(player, amount));
+        GameManager.getInstance().getInvoker().executeCommand(new ReceiveCommand(player, amount * player.getTotalDice()));
     }
 }

@@ -1,13 +1,11 @@
 package test.models;
 
+import core.enums.CardType;
 import core.enums.Continent;
 import core.enums.Region;
 import core.enums.Resource;
 import core.manager.GameManager;
-import core.models.GoSquare;
-import core.models.ISquare;
-import core.models.Player;
-import core.models.ProductSquare;
+import core.models.*;
 import core.products.IProduct;
 import core.products.Product;
 import core.strategies.ISquareAction;
@@ -288,5 +286,25 @@ public class SquareTest {
                 playerMoneyBefore - royalties,
                 player.getMoney()
         );
+    }
+
+    @Test()
+    @DisplayName("CollectSquare donne de l'argent au joeur : 500000 * total des dés")
+    void testCollectSquareGiveMoneyToPlayer500000ByDicesPoints() {
+        int initMoney = player.getMoney();
+        square = new CollectSquare("Recevez 500 000 € par point réalisé", 15);
+        int diceResult = player.roll();
+        square.landOn(player);
+        int finalMoney = initMoney + 500000 * diceResult;
+        assertEquals(finalMoney, player.getMoney());
+    }
+
+    @Test()
+    @DisplayName("CardSquare : le joueur doit piocher une carte Actualités")
+    void testCardSquareNewsDrawn() {
+        int initMoney = player.getMoney();
+        square = new CardSquare(CardType.NEWS, 15);
+        square.landOn(player);
+        assertNotEquals(initMoney, player.getMoney());
     }
 }
