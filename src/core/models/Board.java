@@ -1,23 +1,30 @@
 package core.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
 
+    private final List<ISquare> squares;
+    private static final int BOARD_SIZE = 65;
+
     public Board() {
+        this.squares = new ArrayList<>(BOARD_SIZE);
     }
 
     public List<ISquare> getSquares() {
-        return null;
+        return squares;
     }
 
     public ISquare getSquare(int position) {
-        return null;
+        return squares.get(position);
     }
 
-    public void setSquare(int position, ISquare square) {}
+    public void setSquare(int position, ISquare square) {
+        squares.set(position, square);
+    }
 
     public int getSize() {
-        return 0;
+        return BOARD_SIZE;
     }
 }
