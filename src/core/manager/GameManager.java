@@ -3,7 +3,9 @@ package core.manager;
 import core.cards.CardDeck;
 import core.cards.CardFactory;
 import core.commands.CommandInvoker;
+import core.enums.CardType;
 import core.enums.GameState;
+import core.factories.*;
 import core.models.Board;
 import core.products.IProduct;
 import core.models.Player;
@@ -27,6 +29,28 @@ public class GameManager {
     private Shop shop;
 
     private GameManager() {
+        this.board = new Board();
+
+        int[] productPositions = {1, 2, 3, 4, 5, 6, 7,8, 9, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 31, 32, 33, 37, 38, 39, 40, 41, 42, 43, 46, 47, 51, 52, 53, 54, 55, 56, 57, 60, 61};
+        int[] salePositions = {10, 28, 36, 50, 64};
+        int[] collectPositions = {11, 17, 29, 35, 45, 49, 59, 63};
+        int[] newsPositions = {12, 16, 30, 34, 48, 62};
+        int[] jokerPositions = {18, 44, 58};
+
+        SquareFactory productSquareFactory = new ProductSquareFactory();
+        SquareFactory goSquareFactory = new GoSquareFactory();
+        SquareFactory saleSquareFactory = new SaleSquareFactory();
+        SquareFactory collectSquareFactory = new CollectSquareFactory();
+        SquareFactory newsSquareFactory = new CardSquareFactory(CardType.NEWS);
+        SquareFactory jokerSquareFactory = new CardSquareFactory(CardType.JOKER);
+
+        this.board.getSquares().add(goSquareFactory.createSquare(0));
+        for (int p : productPositions) this.board.getSquares().add(productSquareFactory.createSquare(p));
+        for (int p : salePositions) this.board.getSquares().add(saleSquareFactory.createSquare(p));
+        for (int p : collectPositions) this.board.getSquares().add(collectSquareFactory.createSquare(p));
+        for (int p : newsPositions) this.board.getSquares().add(newsSquareFactory.createSquare(p));
+        for (int p : jokerPositions) this.board.getSquares().add(jokerSquareFactory.createSquare(p));
+
         this.players = new ArrayList<>();
         this.observers = new ArrayList<>();
         this.invoker = new CommandInvoker();
@@ -53,23 +77,39 @@ public class GameManager {
 
     public Player getCurrentPlayer() { return null; }
 
-    public List<IGameObserver> getObservers() { return null; }
+    public List<IGameObserver> getObservers() { return observers; }
 
-    public void addObserver(IGameObserver observer) {}
+    public void addObserver(IGameObserver observer) {
+        observers.add(observer);
+    }
 
-    public void removeObserver(IGameObserver observer) {}
+    public void removeObserver(IGameObserver observer) {
+        observers.remove(observer);
+    }
 
-    public void notifyGameStarted() {}
+    public void notifyGameStarted() {
+        for (IGameObserver observer : observers)
+            observer.onGameStarted();
+    }
 
-    public void notifyPlayerMoved(Player player, int position) {}
+    public void notifyPlayerMoved(Player player, int position) {
+        for (IGameObserver observer : observers)
+            observer.onPlayerMoved(player, position);
+    }
 
-    public void notifyPlayerBought(Player player, IProduct product) {}
+    public void notifyPlayerBought(Player player, IProduct product) {
+        for (IGameObserver observer : observers)
+            observer.onProductBought(player, product);
+    }
 
-    public void notifyPlayerBankrupt(Player player) {}
+    public void notifyPlayerBankrupt(Player player) {
+        for (IGameObserver observer : observers)
+            observer.onPlayerBankrupt(player);
+    }
 
     private void checkGameOver() {}
 
-    public Board getBoard() { return null; }
+    public Board getBoard() { return board; }
 
     public List<Player> getPlayers() { return players; }
 

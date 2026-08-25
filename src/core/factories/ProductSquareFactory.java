@@ -38,13 +38,13 @@ public class ProductSquareFactory extends SquareFactory {
             case 43 -> new ProductSquare("Afrique du Sud", position, Continent.AFRICA, Region.AFRIQUE_SUD);
             case 47, 61 -> new ProductSquare("Océanie", position, Continent.ASIA_OCEANIA, Region.OCEANIE);
             case 46, 60 -> new ProductSquare("Choix Mondial", position, null, null);
-            case 49 -> new ProductSquare("Moyen-Orient", position, Continent.ASIA_OCEANIA, Region.MOYEN_ORIENT);
-            case 50 -> new ProductSquare("Péninsule Indienne", position, Continent.ASIA_OCEANIA, Region.PENINSULE_INDIENNE);
-            case 51 -> new ProductSquare("Péninsule Indochinoise", position, Continent.ASIA_OCEANIA, Region.PENINSULE_INDOCHINOISE);
-            case 52 -> new ProductSquare("Choix Asie-Océanie", position, Continent.ASIA_OCEANIA, null);
-            case 53 -> new ProductSquare("Japon", position, Continent.ASIA_OCEANIA, Region.JAPON);
-            case 54 -> new ProductSquare("Chine", position, Continent.ASIA_OCEANIA, Region.CHINE);
-            case 55 -> new ProductSquare("Indonésie", position, Continent.ASIA_OCEANIA, Region.INDONESIE);
+            case 51 -> new ProductSquare("Moyen-Orient", position, Continent.ASIA_OCEANIA, Region.MOYEN_ORIENT);
+            case 52 -> new ProductSquare("Péninsule Indienne", position, Continent.ASIA_OCEANIA, Region.PENINSULE_INDIENNE);
+            case 53 -> new ProductSquare("Péninsule Indochinoise", position, Continent.ASIA_OCEANIA, Region.PENINSULE_INDOCHINOISE);
+            case 54 -> new ProductSquare("Choix Asie-Océanie", position, Continent.ASIA_OCEANIA, null);
+            case 55 -> new ProductSquare("Japon", position, Continent.ASIA_OCEANIA, Region.JAPON);
+            case 56 -> new ProductSquare("Chine", position, Continent.ASIA_OCEANIA, Region.CHINE);
+            case 57 -> new ProductSquare("Indonésie", position, Continent.ASIA_OCEANIA, Region.INDONESIE);
             default -> throw new IllegalArgumentException("Position " + position + " n'est pas une propriété");
         };
     }
