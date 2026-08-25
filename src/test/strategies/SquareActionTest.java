@@ -9,10 +9,12 @@ import core.models.Player;
 import core.products.IProduct;
 import core.products.Product;
 import core.products.ProductFactory;
+import core.products.Shop;
 import core.strategies.*;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -24,11 +26,15 @@ public class SquareActionTest {
 
     private ISquareAction action;
     private Player player;
+    private Shop shop;
 
     @BeforeEach()
     void setUp() {
+        GameManager.getInstance().getPlayers().clear();
         GameManager.getInstance().reset();
         player = new Player("Alice");
+        GameManager.getInstance().addPlayer(player);
+        shop = GameManager.getInstance().getShop();
     }
 
     @Test()
@@ -346,5 +352,155 @@ public class SquareActionTest {
         assertDoesNotThrow(() ->
                 action.execute(player)
         );
+    }
+
+    @Test
+    @DisplayName("Le joueur peut acheter un produit puis arrêter")
+    void executeCanBuyOneProduct() {
+
+        List<IProduct> products =
+                shop.getProducts(
+                                Continent.AFRICA,
+                                null
+                        )
+                        .values()
+                        .stream()
+                        .flatMap(List::stream)
+                        .toList();
+
+        int propertiesBefore =
+                player.getProperties()
+                        .values()
+                        .stream()
+                        .mapToInt(List::size)
+                        .sum();
+
+        Scanner scanner =
+                new Scanner(new StringReader("0\n-1\n"));
+
+        BuyProductAction action =
+                new BuyProductAction(
+                        Continent.AFRICA,
+                        null,
+                        scanner
+                );
+
+        action.execute(player);
+
+        int propertiesAfter =
+                player.getProperties()
+                        .values()
+                        .stream()
+                        .mapToInt(List::size)
+                        .sum();
+
+        assertEquals(
+                propertiesBefore + 1,
+                propertiesAfter
+        );
+    }
+
+    @Test
+    @DisplayName("Le joueur peut annuler immédiatement")
+    void executeCanStopImmediately() {
+
+        int propertiesBefore =
+                player.getProperties()
+                        .values()
+                        .stream()
+                        .mapToInt(List::size)
+                        .sum();
+
+        Scanner scanner =
+                new Scanner(new StringReader("-1\n"));
+
+        BuyProductAction action =
+                new BuyProductAction(
+                        Continent.AFRICA,
+                        null,
+                        scanner
+                );
+
+        action.execute(player);
+
+        int propertiesAfter =
+                player.getProperties()
+                        .values()
+                        .stream()
+                        .mapToInt(List::size)
+                        .sum();
+
+        assertEquals(
+                propertiesBefore,
+                propertiesAfter
+        );
+    }
+
+    @Test
+    @DisplayName("Un choix invalide ne provoque aucun achat")
+    void executeRejectsInvalidChoice() {
+
+        int propertiesBefore =
+                player.getProperties()
+                        .values()
+                        .stream()
+                        .mapToInt(List::size)
+                        .sum();
+
+        Scanner scanner =
+                new Scanner(
+                        new StringReader("999\n-1\n")
+                );
+
+        BuyProductAction action =
+                new BuyProductAction(
+                        Continent.AFRICA,
+                        null,
+                        scanner
+                );
+
+        action.execute(player);
+
+        int propertiesAfter =
+                player.getProperties()
+                        .values()
+                        .stream()
+                        .mapToInt(List::size)
+                        .sum();
+
+        assertEquals(
+                propertiesBefore,
+                propertiesAfter
+        );
+    }
+
+    @Test
+    @DisplayName("Le joueur ne peut pas acheter plus de 6 produits")
+    void executeStopsAfterSixPurchases() {
+
+        Scanner scanner =
+                new Scanner(
+                        new StringReader(
+                                "0\n0\n0\n0\n0\n0\n0\n"
+                        )
+                );
+
+        BuyProductAction action =
+                new BuyProductAction(
+                        null,
+                        null,
+                        scanner
+                );
+
+        action.execute(player);
+
+        int ownedProducts =
+                player.getProperties()
+                        .values()
+                        .stream()
+                        .mapToInt(List::size)
+                        .sum();
+
+        assertEquals(6, ownedProducts);
     }
 }

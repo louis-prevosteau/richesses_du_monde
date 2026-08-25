@@ -36,7 +36,7 @@ public class ProductSquareFactory extends SquareFactory {
             case 41 -> new ProductSquare("Afrique Centrale", position, Continent.AFRICA, Region.AFRIQUE_CENTRALE);
             case 42 -> new ProductSquare("Afrique des Grands Lacs", position, Continent.AFRICA, Region.AFRIQUE_GRANDS_LACS);
             case 43 -> new ProductSquare("Afrique du Sud", position, Continent.AFRICA, Region.AFRIQUE_SUD);
-            case 45, 61 -> new ProductSquare("Océanie", position, Continent.ASIA_OCEANIA, Region.OCEANIE);
+            case 47, 61 -> new ProductSquare("Océanie", position, Continent.ASIA_OCEANIA, Region.OCEANIE);
             case 46, 60 -> new ProductSquare("Choix Mondial", position, null, null);
             case 49 -> new ProductSquare("Moyen-Orient", position, Continent.ASIA_OCEANIA, Region.MOYEN_ORIENT);
             case 50 -> new ProductSquare("Péninsule Indienne", position, Continent.ASIA_OCEANIA, Region.PENINSULE_INDIENNE);

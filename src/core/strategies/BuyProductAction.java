@@ -13,12 +13,29 @@ import java.util.Scanner;
 
 public class BuyProductAction implements ISquareAction {
 
-    private Continent continent;
-    private Region region;
+    private final Continent continent;
+    private final Region region;
+    private final Scanner scanner;
 
-    public BuyProductAction(Continent continent, Region region) {
+    public BuyProductAction(
+            Continent continent,
+            Region region
+    ) {
+        this(
+                continent,
+                region,
+                new Scanner(System.in)
+        );
+    }
+
+    public BuyProductAction(
+            Continent continent,
+            Region region,
+            Scanner scanner
+    ) {
         this.continent = continent;
         this.region = region;
+        this.scanner = scanner;
     }
 
     @Override
@@ -28,35 +45,57 @@ public class BuyProductAction implements ISquareAction {
 
     @Override
     public void execute(Player player) {
+
         System.out.println(getDescription());
 
         int purchasesThisTurn = 0;
 
         while (purchasesThisTurn < 6) {
 
-            List<IProduct> availableProducts = getAvailableProducts();
+            List<IProduct> availableProducts =
+                    getAvailableProducts();
 
             if (availableProducts.isEmpty()) {
-                System.out.println("Aucun produit disponible.");
+                System.out.println(
+                        "Aucun produit disponible."
+                );
                 return;
             }
 
-            int response = getPlayerChoice(availableProducts);
+            int response =
+                    getPlayerChoice(availableProducts);
 
             if (response == -1) {
-                System.out.println(player.getName() + " arrête ses achats.");
+                System.out.println(
+                        player.getName()
+                                + " arrête ses achats."
+                );
                 return;
             }
 
-            if (response < 0 || response >= availableProducts.size()) {
+            if (
+                    response < 0
+                            || response >= availableProducts.size()
+            ) {
                 System.out.println("Choix invalide.");
                 continue;
             }
 
-            IProduct product = availableProducts.get(response);
+            IProduct product =
+                    availableProducts.get(response);
 
-            GameManager.getInstance().getShop().removeProduct(product);
-            GameManager.getInstance().getInvoker().executeCommand(new BuyProductCommand(player, product));
+            GameManager.getInstance()
+                    .getShop()
+                    .removeProduct(product);
+
+            GameManager.getInstance()
+                    .getInvoker()
+                    .executeCommand(
+                            new BuyProductCommand(
+                                    player,
+                                    product
+                            )
+                    );
 
             purchasesThisTurn++;
 
@@ -64,7 +103,9 @@ public class BuyProductAction implements ISquareAction {
                     player.getName()
                             + " achète "
                             + product.getResource()
-                            + " pour "
+                            + " ("
+                            + product.getPercentage()
+                            + "%) pour "
                             + product.getPrice()
                             + " €"
             );
@@ -76,24 +117,41 @@ public class BuyProductAction implements ISquareAction {
             );
         }
 
-        System.out.println("Limite de 6 achats atteinte pour ce tour.");
+        System.out.println(
+                "Limite de 6 achats atteinte pour ce tour."
+        );
     }
 
     public List<IProduct> getAvailableProducts() {
+
         Map<Region, List<IProduct>> products;
 
         if (region != null) {
+
             products = GameManager.getInstance()
                     .getShop()
-                    .getProducts(null, region);
+                    .getProducts(
+                            null,
+                            region
+                    );
+
         } else if (continent != null) {
+
             products = GameManager.getInstance()
                     .getShop()
-                    .getProducts(continent, null);
+                    .getProducts(
+                            continent,
+                            null
+                    );
+
         } else {
+
             products = GameManager.getInstance()
                     .getShop()
-                    .getProducts(null, null);
+                    .getProducts(
+                            null,
+                            null
+                    );
         }
 
         return products.values()
@@ -102,29 +160,57 @@ public class BuyProductAction implements ISquareAction {
                 .toList();
     }
 
-    private int getPlayerChoice(List<IProduct> products) {
-        Scanner scanner = new Scanner(System.in);
+    private int getPlayerChoice(
+            List<IProduct> products
+    ) {
 
-        System.out.println("\nProduits disponibles :");
+        System.out.println(
+                "\nProduits disponibles :"
+        );
 
-        for (int i = 0; i < products.size(); i++) {
-            IProduct product = products.get(i);
+        for (
+                int i = 0;
+                i < products.size();
+                i++
+        ) {
+
+            IProduct product =
+                    products.get(i);
 
             System.out.println(
-                    i + " - " + product.getResource()
+                    i
+                            + " - "
+                            + product.getResource()
                             + " | "
-                            + product.getPercentage() + "%"
+                            + product.getPercentage()
+                            + "%"
                             + " | Prix : "
                             + product.getPrice()
+                            + " €"
             );
         }
+
+        System.out.println(
+                "-1 - Terminer les achats"
+        );
 
         System.out.print("> ");
 
         try {
-            return Integer.parseInt(scanner.nextLine());
-        } catch (NumberFormatException e) {
-            return -1;
+
+            return Integer.parseInt(
+                    scanner.nextLine()
+            );
+
+        } catch (
+                NumberFormatException e
+        ) {
+
+            System.out.println(
+                    "Veuillez saisir un nombre."
+            );
+
+            return -2;
         }
     }
 
