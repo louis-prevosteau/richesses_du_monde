@@ -45,11 +45,6 @@ public class ProductSquare implements ISquare {
 
     private Resource getRandomResource() {
         List<Resource> availableResources = Arrays.stream(Resource.values()).toList();
-        if (availableResources.isEmpty()) {
-            throw new IllegalStateException(
-                    "Toutes les ressources ont déjà été attribuées 2 fois."
-            );
-        }
         Resource resource = availableResources.get(
                 ThreadLocalRandom.current().nextInt(availableResources.size())
         );
@@ -71,6 +66,10 @@ public class ProductSquare implements ISquare {
         System.out.println(player.getName() + " arrive sur la case " + name);
         if (royaltiesResource != null) payRoyalties(player);
         action.execute(player);
+    }
+
+    public void setRoyaltiesResource(Resource royaltiesResource) {
+        this.royaltiesResource = royaltiesResource;
     }
 
     private int calculateRoyalties(Player player, Resource resource) {

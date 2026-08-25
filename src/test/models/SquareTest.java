@@ -129,4 +129,185 @@ public class SquareTest {
         square.landOn(player);
         assertNotEquals(initMoney, player.getMoney());
     }
+
+    @Test
+    @DisplayName("Le joueur paie des royalties si un autre joueur possède au moins 30%")
+    void testRoyaltyPaidWhenAnotherPlayerOwns30Percent() {
+
+        ProductSquare square = new ProductSquare(
+                "Maghreb",
+                1,
+                new DummyAction()
+        );
+
+        square.setRoyaltiesResource(Resource.PETROLE);
+
+        owner.addProperty(
+                new Product(
+                        Resource.PETROLE,
+                        35,
+                        1_000_000,
+                        Continent.AFRICA,
+                        Region.MAGHREB,
+                        "Algérie"
+                )
+        );
+
+        int royalties = Resource.PETROLE.getRapportBase();
+
+        int playerMoneyBefore = player.getMoney();
+        int ownerMoneyBefore = owner.getMoney();
+
+        square.landOn(player);
+
+        assertEquals(
+                playerMoneyBefore - royalties,
+                player.getMoney()
+        );
+
+        assertEquals(
+                ownerMoneyBefore + royalties,
+                owner.getMoney()
+        );
+    }
+
+    @Test
+    @DisplayName("Les royalties sont dues dès 30% exactement")
+    void testRoyaltyAtThirtyPercent() {
+
+        ProductSquare square = new ProductSquare(
+                "Maghreb",
+                1,
+                new DummyAction()
+        );
+
+        square.setRoyaltiesResource(Resource.PETROLE);
+
+        owner.addProperty(
+                new Product(
+                        Resource.PETROLE,
+                        30,
+                        1_000_000,
+                        Continent.AFRICA,
+                        Region.MAGHREB,
+                        "Algérie"
+                )
+        );
+
+        int royalties = Resource.PETROLE.getRapportBase();
+
+        int playerMoneyBefore = player.getMoney();
+
+        square.landOn(player);
+
+        assertEquals(
+                playerMoneyBefore - royalties,
+                player.getMoney()
+        );
+    }
+
+    @Test
+    @DisplayName("Royalties x5 à partir de 50%")
+    void testRoyaltyAtFiftyPercent() {
+
+        ProductSquare square = new ProductSquare(
+                "Maghreb",
+                1,
+                new DummyAction()
+        );
+
+        square.setRoyaltiesResource(Resource.PETROLE);
+
+        owner.addProperty(
+                new Product(
+                        Resource.PETROLE,
+                        50,
+                        1_000_000,
+                        Continent.AFRICA,
+                        Region.MAGHREB,
+                        "Algérie"
+                )
+        );
+
+        int royalties = Resource.PETROLE.getRapportBase() * 5;
+
+        int playerMoneyBefore = player.getMoney();
+
+        square.landOn(player);
+
+        assertEquals(
+                playerMoneyBefore - royalties,
+                player.getMoney()
+        );
+    }
+
+    @Test
+    @DisplayName("Royalties x10 à partir de 70%")
+    void testRoyaltyAtSeventyPercent() {
+
+        ProductSquare square = new ProductSquare(
+                "Maghreb",
+                1,
+                new DummyAction()
+        );
+
+        square.setRoyaltiesResource(Resource.PETROLE);
+
+        owner.addProperty(
+                new Product(
+                        Resource.PETROLE,
+                        70,
+                        1_000_000,
+                        Continent.AFRICA,
+                        Region.MAGHREB,
+                        "Algérie"
+                )
+        );
+
+        int royalties = Resource.PETROLE.getRapportBase() * 10;
+
+        int playerMoneyBefore = player.getMoney();
+
+        square.landOn(player);
+
+        assertEquals(
+                playerMoneyBefore - royalties,
+                player.getMoney()
+        );
+    }
+
+    @Test
+    @DisplayName("Royalties x20 à partir de 90%")
+    void testRoyaltyAtNinetyPercent() {
+
+        ProductSquare square = new ProductSquare(
+                "Maghreb",
+                1,
+                new DummyAction()
+        );
+
+        square.setRoyaltiesResource(Resource.PETROLE);
+
+        owner.addProperty(
+                new Product(
+                        Resource.PETROLE,
+                        90,
+                        1_000_000,
+                        Continent.AFRICA,
+                        Region.MAGHREB,
+                        "Algérie"
+                )
+        );
+
+        int royalties = Resource.PETROLE.getRapportBase() * 20;
+
+        int playerMoneyBefore = player.getMoney();
+
+        square.landOn(player);
+
+        assertEquals(
+                playerMoneyBefore - royalties,
+                player.getMoney()
+        );
+    }
 }
