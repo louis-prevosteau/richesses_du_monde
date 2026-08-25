@@ -11,8 +11,11 @@ import core.products.IProduct;
 import core.strategies.BuyProductAction;
 import core.strategies.ISquareAction;
 
+import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ProductSquare implements ISquare {
 
@@ -21,23 +24,36 @@ public class ProductSquare implements ISquare {
     private final ISquareAction action;
     private Resource royaltiesResource;
 
-    public ProductSquare(String name, int position, Continent continent, Region region, Resource royaltiesResource) {
+
+    public ProductSquare(String name, int position, Continent continent, Region region) {
         this.name = name;
         this.position = position;
         this.action = new BuyProductAction(continent, region);
-        this.royaltiesResource = royaltiesResource;
+        this.royaltiesResource = (position == 46 || position == 60) ? null : getRandomResource();
     }
 
     public ProductSquare(
             String name,
             int position,
-            Resource royaltiesResource,
             ISquareAction action
     ) {
         this.name = name;
         this.position = position;
-        this.royaltiesResource = royaltiesResource;
+        this.royaltiesResource = (position == 46 || position == 60) ? null : getRandomResource();
         this.action = action;
+    }
+
+    private Resource getRandomResource() {
+        List<Resource> availableResources = Arrays.stream(Resource.values()).toList();
+        if (availableResources.isEmpty()) {
+            throw new IllegalStateException(
+                    "Toutes les ressources ont déjà été attribuées 2 fois."
+            );
+        }
+        Resource resource = availableResources.get(
+                ThreadLocalRandom.current().nextInt(availableResources.size())
+        );
+        return resource;
     }
 
     @Override
@@ -53,7 +69,7 @@ public class ProductSquare implements ISquare {
     @Override
     public void landOn(Player player) {
         System.out.println(player.getName() + " arrive sur la case " + name);
-        payRoyalties(player);
+        if (royaltiesResource != null) payRoyalties(player);
         action.execute(player);
     }
 

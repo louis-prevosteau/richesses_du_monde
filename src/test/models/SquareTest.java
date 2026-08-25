@@ -46,7 +46,7 @@ public class SquareTest {
     @Test
     @DisplayName("GoSquare : le joueur est sur la case départ")
     void testGoSquare() {
-        square = new GoSquare();
+        square = new GoSquare(0);
 
         square.landOn(player);
 
@@ -61,7 +61,6 @@ public class SquareTest {
         square = new ProductSquare(
                 "Maghreb",
                 1,
-                Resource.PETROLE,
                 new DummyAction()
         );
 
@@ -90,7 +89,6 @@ public class SquareTest {
         square = new ProductSquare(
                 "Maghreb",
                 1,
-                Resource.PETROLE,
                 new DummyAction()
         );
 
@@ -130,7 +128,6 @@ public class SquareTest {
         square = new ProductSquare(
                 "Maghreb",
                 1,
-                Resource.PETROLE,
                 new DummyAction()
         );
 
@@ -159,7 +156,6 @@ public class SquareTest {
         square = new ProductSquare(
                 "Maghreb",
                 1,
-                Resource.PETROLE,
                 new DummyAction()
         );
 
@@ -193,7 +189,6 @@ public class SquareTest {
         square = new ProductSquare(
                 "Maghreb",
                 1,
-                Resource.PETROLE,
                 new DummyAction()
         );
 
@@ -227,7 +222,6 @@ public class SquareTest {
         square = new ProductSquare(
                 "Maghreb",
                 1,
-                Resource.PETROLE,
                 new DummyAction()
         );
 
@@ -261,7 +255,6 @@ public class SquareTest {
         square = new ProductSquare(
                 "Maghreb",
                 1,
-                Resource.PETROLE,
                 new DummyAction()
         );
 
@@ -292,7 +285,7 @@ public class SquareTest {
     @DisplayName("CollectSquare donne de l'argent au joeur : 500000 * total des dés")
     void testCollectSquareGiveMoneyToPlayer500000ByDicesPoints() {
         int initMoney = player.getMoney();
-        square = new CollectSquare("Recevez 500 000 € par point réalisé", 15);
+        square = new CollectSquare(15);
         int diceResult = player.roll();
         square.landOn(player);
         int finalMoney = initMoney + 500000 * diceResult;

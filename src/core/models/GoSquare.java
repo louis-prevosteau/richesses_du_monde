@@ -2,6 +2,12 @@ package core.models;
 
 public class GoSquare implements ISquare {
 
+    private int position;
+
+    public GoSquare(int position) {
+        this.position = position;
+    }
+
     @Override
     public String getName() {
         return "Départ";
@@ -9,7 +15,7 @@ public class GoSquare implements ISquare {
 
     @Override
     public int getPosition() {
-        return 0;
+        return position;
     }
 
     @Override
