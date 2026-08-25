@@ -19,6 +19,7 @@ public class CardTest {
 
     @BeforeEach()
     void setUp() {
+        GameManager.getInstance().getPlayers().clear();
         pay = new PayCard("TestPay", CardType.NEWS, new int[]{4000000}, null);
         receive = new ReceiveCard("TestReceive", CardType.NEWS, new int[]{4000000}, null);
         payCondition = new PayCard("TestPayWithCondition", CardType.NEWS, new int[]{4000000, 2000000}, Resource.PETROLE);
