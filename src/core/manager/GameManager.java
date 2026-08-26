@@ -57,6 +57,8 @@ public class GameManager {
         this.shop = ProductFactory.createShop();
         this.news = CardFactory.createNewsDeck();
         this.jokers = CardFactory.createJokerDeck();
+        this.currentState = GameState.WAITING;
+        this.currentPlayerIndex = 0;
     }
 
     public static GameManager getInstance() {
@@ -69,13 +71,27 @@ public class GameManager {
         return shop;
     }
 
-    public void addPlayer(Player player) { players.add(player); }
+    public void addPlayer(Player player) {
+        if (currentState == GameState.WAITING) {
+            players.add(player);
+        } else {
+            throw new IllegalStateException("Impossible d'ajouter un joueur après le démarrage du jeu");
+        }
+    }
 
-    public void startGame() {}
+    public void startGame() {
+        if (players.size() < 2) {
+            throw new IllegalStateException("Il faut au moins 2 joueurs pour commencer");
+        }
+        currentState = GameState.PLAYING;
+        notifyGameStarted();
+    }
 
-    public void nextPlayer() {}
+    public void nextPlayer() {
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    }
 
-    public Player getCurrentPlayer() { return null; }
+    public Player getCurrentPlayer() { return players.get(currentPlayerIndex); }
 
     public List<IGameObserver> getObservers() { return observers; }
 
@@ -105,15 +121,24 @@ public class GameManager {
     public void notifyPlayerBankrupt(Player player) {
         for (IGameObserver observer : observers)
             observer.onPlayerBankrupt(player);
+        players.remove(player);
+        checkGameOver();
     }
 
-    private void checkGameOver() {}
+    private void checkGameOver() {
+        if (players.size() == 1) {
+            currentState = GameState.OVER;
+            for (IGameObserver observer : observers) {
+                observer.onGameOver(players.get(0));
+            }
+        }
+    }
 
     public Board getBoard() { return board; }
 
     public List<Player> getPlayers() { return players; }
 
-    public GameState getCurrentState() { return null; }
+    public GameState getCurrentState() { return currentState; }
 
     public CommandInvoker getInvoker() { return invoker; }
 
@@ -122,9 +147,10 @@ public class GameManager {
     public CardDeck getJokers() { return jokers; }
 
     public void reset() {
-        players.clear();
-        observers.clear();
-        currentState = GameState.WAITING;
-        invoker = new CommandInvoker();
+        this.players.clear();
+        this.observers.clear();
+        this.currentState = GameState.WAITING;
+        this.invoker = new CommandInvoker();
+        this.currentPlayerIndex = 0;
     }
 }

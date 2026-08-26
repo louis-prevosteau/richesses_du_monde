@@ -8,6 +8,7 @@ import core.products.Shop;
 import core.states.BankruptState;
 import core.states.IPlayerState;
 import core.states.NormalState;
+import core.utils.Utils;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -134,7 +135,20 @@ public class Player {
         return money >= amount;
     }
 
-    public void displayProfile() {}
+    public void displayProfile() {
+        System.out.println("\n═══════════════════════════════════════");
+        System.out.println("Profil de " + name);
+        System.out.println("═══════════════════════════════════════");
+        System.out.println("Argent: " + money + "€");
+        System.out.println("Ressources: ");
+
+        if (!properties.isEmpty()) {
+            System.out.println("\nDétail des propriétés:");
+            for (Map.Entry<Resource, List<IProduct>> entry : properties.entrySet())
+                System.out.println("- " + entry.getKey().getName() + " : " + entry.getValue().stream().mapToInt(IProduct::getPercentage) + " % (" + entry.getValue().size() + " produits) ---  Royalties : " + Utils.calculateRoyalties(this, entry.getKey()) + " €");
+        }
+        System.out.println("═══════════════════════════════════════\n");
+    }
 
     public void declareBankruptcy() {
         Shop shop = GameManager.getInstance().getShop();

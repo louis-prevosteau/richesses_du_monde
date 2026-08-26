@@ -27,7 +27,7 @@ public class Utils {
         }
     }
 
-    private static int calculateRoyalties(Player player, Resource resource) {
+    public static int calculateRoyalties(Player player, Resource resource) {
         List<IProduct> playerProducts = player.getPropertiesByResource(resource);
         if (playerProducts == null || playerProducts.isEmpty()) {
             return 0;
