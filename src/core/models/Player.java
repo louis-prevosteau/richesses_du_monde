@@ -144,8 +144,22 @@ public class Player {
 
         if (!properties.isEmpty()) {
             System.out.println("\nDétail des propriétés:");
-            for (Map.Entry<Resource, List<IProduct>> entry : properties.entrySet())
-                System.out.println("- " + entry.getKey().getName() + " : " + entry.getValue().stream().mapToInt(IProduct::getPercentage) + " % (" + entry.getValue().size() + " produits) ---  Royalties : " + Utils.calculateRoyalties(this, entry.getKey()) + " €");
+            for (Map.Entry<Resource, List<IProduct>> entry : properties.entrySet()) {
+
+                int totalPercentage = entry.getValue()
+                        .stream()
+                        .mapToInt(IProduct::getPercentage)
+                        .sum();
+
+                System.out.println(
+                        "- " + entry.getKey().getName()
+                                + " : " + totalPercentage
+                                + "% (" + entry.getValue().size()
+                                + " produits) --- Royalties : "
+                                + Utils.calculateRoyalties(this, entry.getKey())
+                                + " €"
+                );
+            }
         }
         System.out.println("═══════════════════════════════════════\n");
     }
