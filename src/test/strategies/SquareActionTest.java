@@ -30,7 +30,6 @@ public class SquareActionTest {
 
     @BeforeEach()
     void setUp() {
-        GameManager.getInstance().getPlayers().clear();
         GameManager.getInstance().reset();
         player = new Player("Alice");
         GameManager.getInstance().addPlayer(player);

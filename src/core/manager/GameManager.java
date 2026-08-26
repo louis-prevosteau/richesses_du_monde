@@ -25,7 +25,7 @@ public class GameManager {
     private GameState currentState;
     private List<IGameObserver> observers;
     private int currentPlayerIndex;
-    private final CardDeck news, jokers;
+    private CardDeck news, jokers;
     private Shop shop;
 
     private GameManager() {
@@ -152,5 +152,8 @@ public class GameManager {
         this.currentState = GameState.WAITING;
         this.invoker = new CommandInvoker();
         this.currentPlayerIndex = 0;
+        this.shop = ProductFactory.createShop();
+        this.news = CardFactory.createNewsDeck();
+        this.jokers = CardFactory.createJokerDeck();
     }
 }
