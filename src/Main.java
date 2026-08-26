@@ -1,13 +1,42 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
+import core.commands.ICommand;
+import core.manager.GameManager;
+import core.models.Player;
+import core.products.IProduct;
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
+import java.util.Scanner;
+
+public class Main {
+
+    private final GameManager manager = GameManager.getInstance();
+    private final Scanner scanner = new Scanner(System.in);
+
+    private record Action(String label, Runnable run) {}
+
+    private interface CommandFactory {
+        ICommand create(IProduct product);
     }
+
+    public void start() {
+        initGame();
+        gameLoop();
+    }
+
+    private void gameLoop() {
+    }
+
+    private void initGame() {
+        System.out.println("======= RICHESSES DU MONDE" +
+                " ========");
+        System.out.print("Nombre de joueurs : ");
+        int nbPlayers = scanner.nextInt();
+        scanner.nextLine();
+        for (int i = 0 ; i < nbPlayers ; i++) {
+            System.out.print("Nom du joueur " + (i + 1) + " : ");
+            String name = scanner.nextLine();
+            manager.addPlayer(new Player(name));
+        }
+        manager.startGame();
+    }
+    
+    
 }
