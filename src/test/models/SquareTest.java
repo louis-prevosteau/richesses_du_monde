@@ -21,6 +21,9 @@ public class SquareTest {
 
     private static class DummyAction implements ISquareAction {
 
+        boolean executed = false;
+        Player playerReceived;
+
         @Override
         public String getDescription() {
             return "Dummy";
@@ -28,7 +31,8 @@ public class SquareTest {
 
         @Override
         public void execute(Player player) {
-            // Ne rien faire
+            executed = true;
+            playerReceived = player;
         }
     }
 
@@ -309,5 +313,34 @@ public class SquareTest {
                 playerMoneyBefore - royalties,
                 player.getMoney()
         );
+    }
+
+    @Test
+    @DisplayName("SaleSquare : landOn exécute l'action associée")
+    void testLandOnExecutesAction() {
+
+        DummyAction action = new DummyAction();
+
+        square = new SaleSquare(10, action);
+
+        Player player = new Player("Alice");
+
+        square.landOn(player);
+
+        assertTrue(action.executed);
+        assertEquals(player, action.playerReceived);
+    }
+
+    @Test
+    @DisplayName("SaleSquare : landOn ne lance pas d'exception")
+    void testLandOnDoesNotThrow() {
+
+        DummyAction action = new DummyAction();
+
+        SaleSquare square = new SaleSquare(10, action);
+
+        Player player = new Player("Alice");
+
+        assertDoesNotThrow(() -> square.landOn(player));
     }
 }

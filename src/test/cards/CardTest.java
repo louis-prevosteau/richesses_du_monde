@@ -11,6 +11,9 @@ import core.products.IProduct;
 import core.products.Product;
 import org.junit.jupiter.api.*;
 
+import java.io.StringReader;
+import java.util.Scanner;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CardTest {
@@ -109,5 +112,63 @@ public class CardTest {
         assertEquals(initialMoneyP1 + 2000000, player.getMoney());
         assertEquals(initialMoneyP2 - 1000000, bob.getMoney());
         assertEquals(initialMoneyP3 - 1000000, charlie.getMoney());
+    }
+
+    @Test
+    @DisplayName("Le joueur accepte d'acheter la carte joker")
+    void testAcceptJokerCard() {
+
+        Scanner scanner =
+                new Scanner(new StringReader("1\n"));
+
+        JokerCard card = new JokerCard(
+                "Carte Joker",
+                CardType.JOKER,
+                scanner
+        );
+
+        int moneyBefore = player.getMoney();
+        int jokerBefore = player.getJokers().size();
+
+        card.executeEffect(player);
+
+        assertEquals(
+                moneyBefore - 3_000_000,
+                player.getMoney()
+        );
+
+        assertEquals(
+                jokerBefore + 1,
+                player.getJokers().size()
+        );
+    }
+
+    @Test
+    @DisplayName("Le joueur refuse d'acheter la carte joker")
+    void testRefuseJokerCard() {
+
+        Scanner scanner =
+                new Scanner(new StringReader("0\n"));
+
+        JokerCard card = new JokerCard(
+                "Carte Joker",
+                CardType.JOKER,
+                scanner
+        );
+
+        int moneyBefore = player.getMoney();
+        int jokerBefore = player.getJokers().size();
+
+        card.executeEffect(player);
+
+        assertEquals(
+                moneyBefore,
+                player.getMoney()
+        );
+
+        assertEquals(
+                jokerBefore,
+                player.getJokers().size()
+        );
     }
 }

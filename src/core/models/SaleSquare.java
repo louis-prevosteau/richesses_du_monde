@@ -9,8 +9,12 @@ public class SaleSquare implements ISquare {
     private ISquareAction action;
 
     public SaleSquare(int position) {
+        this(position, new SellResourceAction());
+    }
+
+    public SaleSquare(int position, ISquareAction action) {
         this.position = position;
-        this.action = new SellResourceAction();
+        this.action = action;
     }
 
     @Override

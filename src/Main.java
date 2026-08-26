@@ -22,6 +22,7 @@ public class Main {
     }
 
     private void gameLoop() {
+
     }
 
     private void initGame() {

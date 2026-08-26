@@ -10,16 +10,27 @@ import java.util.Scanner;
 
 public class JokerCard extends Card {
 
+    private final Scanner scanner;
+
     public JokerCard(String description, CardType type) {
         super(description, type);
+        this.scanner = new Scanner(System.in);
+    }
+
+    public JokerCard(
+            String description,
+            CardType type,
+            Scanner scanner
+    ) {
+        super(description, type);
+        this.scanner = scanner;
     }
 
     @Override
     public void executeEffect(Player player) {
         System.out.println(getDescription());
-        Scanner in = new Scanner(System.in);
         System.out.println(player.getName() + ", souhaitez-vous prendre une carte joker pour 3 000 000 € ? (1 : Oui, 0 : Non)");
-        int choice = in.nextInt();
+        int choice = scanner.nextInt();
         if (choice == 1) {
             GameManager
                     .getInstance()
