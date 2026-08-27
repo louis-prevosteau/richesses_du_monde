@@ -3,6 +3,7 @@ package core.manager;
 import core.commands.ICommand;
 import core.commands.MoveCommand;
 import core.commands.RollDiceCommand;
+import core.enums.GameState;
 import core.enums.Resource;
 import core.models.Player;
 import core.products.IProduct;
@@ -33,9 +34,10 @@ public class Launcher {
     }
 
     private static void gameLoop() {
-        while (true) {
+        while (manager.getCurrentState() != GameState.OVER) {
             playTurn();
         }
+        System.out.println("Partie terminée");
     }
 
     public static void playTurn() {
