@@ -25,7 +25,7 @@ public class RollDiceCommand implements ICommand {
         isDouble = player.isDouble();
         System.out.println(getDescription());
         if (isDouble) {
-            System.out.println(player.getName() + " a fait un double " + player.getDice2() + ". Il paie " + player.getDice2() + " €.");
+            System.out.println(player.getName() + " a fait un double " + player.getDice2() + ". Il paie " + player.getDice2() * 1000000 + " €.");
             player.pay(player.getDice2() * 1000000);
         }
     }

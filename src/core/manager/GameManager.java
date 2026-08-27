@@ -31,6 +31,11 @@ public class GameManager {
     private GameManager() {
         this.board = new Board();
 
+        System.out.println(
+                "Nombre de cases = "
+                        + board.getSquares().size()
+        );
+
         int[] productPositions = {1, 2, 3, 4, 5, 6, 7,8, 9, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 31, 32, 33, 37, 38, 39, 40, 41, 42, 43, 46, 47, 51, 52, 53, 54, 55, 56, 57, 60, 61};
         int[] salePositions = {10, 28, 36, 50, 64};
         int[] collectPositions = {11, 17, 29, 35, 45, 49, 59, 63};
@@ -44,12 +49,12 @@ public class GameManager {
         SquareFactory newsSquareFactory = new CardSquareFactory(CardType.NEWS);
         SquareFactory jokerSquareFactory = new CardSquareFactory(CardType.JOKER);
 
-        this.board.getSquares().add(goSquareFactory.createSquare(0));
-        for (int p : productPositions) this.board.getSquares().add(productSquareFactory.createSquare(p));
-        for (int p : salePositions) this.board.getSquares().add(saleSquareFactory.createSquare(p));
-        for (int p : collectPositions) this.board.getSquares().add(collectSquareFactory.createSquare(p));
-        for (int p : newsPositions) this.board.getSquares().add(newsSquareFactory.createSquare(p));
-        for (int p : jokerPositions) this.board.getSquares().add(jokerSquareFactory.createSquare(p));
+        this.board.setSquare(0, goSquareFactory.createSquare(0));
+        for (int p : productPositions) this.board.setSquare(p, productSquareFactory.createSquare(p));
+        for (int p : salePositions) this.board.setSquare(p, saleSquareFactory.createSquare(p));
+        for (int p : collectPositions) this.board.setSquare(p, collectSquareFactory.createSquare(p));
+        for (int p : newsPositions) this.board.setSquare(p, newsSquareFactory.createSquare(p));
+        for (int p : jokerPositions) this.board.setSquare(p, jokerSquareFactory.createSquare(p));
 
         this.players = new ArrayList<>();
         this.observers = new ArrayList<>();
