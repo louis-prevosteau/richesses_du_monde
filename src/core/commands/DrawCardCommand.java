@@ -22,10 +22,7 @@ public class DrawCardCommand implements ICommand {
 
     @Override
     public void execute() {
-        System.out.println(getDescription());
-
         GameManager manager = GameManager.getInstance();
-
         ICard card = CardType.NEWS.equals(type)
                 ? manager.getNews().draw()
                 : manager.getJokers().draw();

@@ -1,21 +1,14 @@
 package core.models;
 
-import core.commands.PayCommand;
-import core.commands.ReceiveCommand;
-import core.commands.RollDiceCommand;
 import core.enums.Continent;
 import core.enums.Region;
 import core.enums.Resource;
-import core.manager.GameManager;
-import core.products.IProduct;
 import core.strategies.BuyProductAction;
 import core.strategies.ISquareAction;
 import core.utils.Utils;
 
 import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ProductSquare implements ISquare {

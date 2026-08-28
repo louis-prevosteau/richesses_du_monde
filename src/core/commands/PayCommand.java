@@ -19,7 +19,6 @@ public class PayCommand implements ICommand {
 
     @Override
     public void execute() {
-        System.out.println(getDescription());
         player.pay(amount);
     }
 

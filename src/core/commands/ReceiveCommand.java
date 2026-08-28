@@ -19,7 +19,6 @@ public class ReceiveCommand implements ICommand {
 
     @Override
     public void execute() {
-        System.out.println(getDescription());
         player.receive(amount);
     }
 

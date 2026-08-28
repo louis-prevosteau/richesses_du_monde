@@ -21,6 +21,7 @@ public class Utils {
                 List<IProduct> ownedProducts = p.getPropertiesByResource(royaltiesResource);
                 int percentage = ownedProducts == null ? 0 : ownedProducts.stream().mapToInt(IProduct::getPercentage).sum();
                 System.out.println(p.getName() + " possède la ressource " + royaltiesResource.getName() + " (" + percentage + "%)");
+                System.out.println(player.getName() + ", vous payez " + royalties + " € à " + p.getName());
                 GameManager.getInstance().getInvoker().executeCommand(new PayCommand(player, royalties));
                 GameManager.getInstance().getInvoker().executeCommand(new ReceiveCommand(p, royalties));
             }

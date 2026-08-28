@@ -15,11 +15,12 @@ public class DrawCardAction implements ISquareAction {
 
     @Override
     public String getDescription() {
-        return "Tirer une carte";
+        return "Tirer une carte" + type.getName();
     }
 
     @Override
     public void execute(Player player) {
+        System.out.println(getDescription());
         GameManager
                 .getInstance()
                 .getInvoker()

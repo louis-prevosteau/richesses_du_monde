@@ -40,6 +40,7 @@ public class JokerCard extends Card {
                     .getInstance()
                     .getInvoker()
                     .executeCommand(new AddJokerCardCommand(player, this));
+            System.out.println(player.getName() + " prends une carte joker.");
         }
         else
             System.out.println(player.getName() + " ne prend pas de carte joker.");

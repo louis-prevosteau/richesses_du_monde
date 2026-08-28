@@ -1,10 +1,6 @@
 package core.models;
 
-import core.commands.PayCommand;
-import core.commands.ReceiveCommand;
 import core.enums.Resource;
-import core.manager.GameManager;
-import core.products.IProduct;
 import core.strategies.ISquareAction;
 import core.strategies.ReceiveMoneyAction;
 import core.utils.Utils;

@@ -20,7 +20,6 @@ public class BuyProductCommand implements ICommand {
 
     @Override
     public void execute() {
-        System.out.println(getDescription());
         player.pay(product.getPrice());
         player.addProperty(product);
         product.setOwner(player);

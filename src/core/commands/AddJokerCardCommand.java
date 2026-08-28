@@ -20,7 +20,6 @@ public class AddJokerCardCommand implements ICommand {
 
     @Override
     public void execute() {
-        System.out.println(getDescription());
         player.addJoker(card);
     }
 
