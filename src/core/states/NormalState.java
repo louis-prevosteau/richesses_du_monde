@@ -18,6 +18,9 @@ public class NormalState implements IPlayerState {
                 .getInstance()
                 .getInvoker()
                 .executeCommand(new MoveCommand(player, rollCommand.getResult()));
+        GameManager
+                .getInstance()
+                .notifyPlayerMoved(player, rollCommand.getResult());
     }
 
     @Override

@@ -18,7 +18,7 @@ public class ScoreboardObserver implements IGameObserver {
     @Override
     public void onProductBought(Player player, IProduct product) {
         updatePlayerScore(player);
-        System.out.println("[SCOREBOARD] " + player.getName() + " a acheté " + product.getResource().getName() + " : " + product.getPercentage()+ "% - Provenance : " + product.getRegion());
+        System.out.println("[SCOREBOARD] " + player.getName() + " a acheté " + product.getResource().getName() + " : " + product.getPercentage()+ "% - Provenance : " + product.getRegion() + " pour " + product.getPrice() + " €");
     }
 
     @Override

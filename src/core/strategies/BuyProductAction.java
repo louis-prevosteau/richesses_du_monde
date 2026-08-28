@@ -105,16 +105,9 @@ public class BuyProductAction implements ISquareAction {
 
             purchasesThisTurn++;
 
-            System.out.println(
-                    player.getName()
-                            + " achète "
-                            + product.getResource()
-                            + " ("
-                            + product.getPercentage()
-                            + "%) pour "
-                            + product.getPrice()
-                            + " €"
-            );
+            GameManager
+                    .getInstance()
+                    .notifyPlayerBought(player, product);
 
             System.out.println(
                     "Achats ce tour : "
