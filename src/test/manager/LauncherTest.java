@@ -6,7 +6,9 @@ import core.models.Player;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayInputStream;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -222,12 +224,103 @@ public class LauncherTest {
                         .map(Player::getName)
                         .toList()
                         .containsAll(
-                                java.util.List.of(
+                                List.of(
                                         "Alice",
                                         "Bob",
                                         "Charlie"
                                 )
                         )
+        );
+    }
+
+    @Test
+    @DisplayName("playTurn() ignore un choix invalide")
+    void testPlayTurnInvalidChoice() {
+
+        GameManager.getInstance().addPlayer(new Player("Alice"));
+        GameManager.getInstance().addPlayer(new Player("Bob"));
+        GameManager.getInstance().startGame();
+
+        Launcher.setScanner(
+                new Scanner(
+                        new ByteArrayInputStream(
+                                "99\n".getBytes(StandardCharsets.UTF_8)
+                        )
+                )
+        );
+
+        Player current =
+                GameManager.getInstance()
+                        .getCurrentPlayer();
+
+        assertDoesNotThrow(
+                Launcher::playTurn
+        );
+
+        assertEquals(
+                current,
+                GameManager.getInstance()
+                        .getCurrentPlayer()
+        );
+    }
+
+    @Test
+    @DisplayName("playTurn() permet de passer au joueur suivant")
+    void testPlayTurnNextPlayer() {
+
+        GameManager.getInstance().addPlayer(new Player("Alice"));
+        GameManager.getInstance().addPlayer(new Player("Bob"));
+        GameManager.getInstance().startGame();
+
+        Launcher.setScanner(
+                new Scanner(
+                        new ByteArrayInputStream(
+                                "1\n".getBytes(StandardCharsets.UTF_8)
+                        )
+                )
+        );
+
+        Launcher.playTurn();
+
+        assertEquals(
+                "Bob",
+                GameManager.getInstance()
+                        .getCurrentPlayer()
+                        .getName()
+        );
+    }
+
+    @Test
+    @DisplayName("buildActions() retourne les 3 actions attendues")
+    void testBuildActions() throws Exception {
+
+        Player player = new Player("Alice");
+
+        Method method =
+                Launcher.class.getDeclaredMethod(
+                        "buildActions",
+                        Player.class
+                );
+
+        method.setAccessible(true);
+
+        Object result =
+                method.invoke(
+                        null,
+                        player
+                );
+
+        assertInstanceOf(
+                List.class,
+                result
+        );
+
+        List<?> actions =
+                (List<?>) result;
+
+        assertEquals(
+                3,
+                actions.size()
         );
     }
 }

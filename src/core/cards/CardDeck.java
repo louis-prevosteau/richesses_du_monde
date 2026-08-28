@@ -29,7 +29,10 @@ public class CardDeck implements Iterable<ICard> {
         return card;
     }
 
-    public void returnsCard(ICard card) {}
+    public void returnsCard(ICard card) {
+        cards.add(card);
+        System.out.println("Carte remise dans le paquet");
+    }
 
     public boolean isEmpty() {
         return cards.isEmpty();
