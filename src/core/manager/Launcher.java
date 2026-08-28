@@ -1,8 +1,6 @@
 package core.manager;
 
 import core.commands.ICommand;
-import core.commands.MoveCommand;
-import core.commands.RollDiceCommand;
 import core.enums.GameState;
 import core.enums.Resource;
 import core.models.Player;
@@ -70,12 +68,7 @@ public class Launcher {
         List<Action> actions = new ArrayList<>();
         actions.add(new Action("Lancer les dés",
                 () -> {
-                    RollDiceCommand rollCommand = new RollDiceCommand(player);
-                    manager.getInvoker().executeCommand(rollCommand);
-
-                    manager.getInvoker().executeCommand(
-                            new MoveCommand(player, rollCommand.getResult())
-                    );
+                    player.getState().takeTurn(player);
 
                     System.out.println("Nouvelle position : " +
                             manager.getBoard().getSquare(player.getPosition()).getName());

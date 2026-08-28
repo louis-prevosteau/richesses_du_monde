@@ -12,6 +12,9 @@ import java.util.List;
 public class Utils {
 
     public static void payRoyalties(Player player, Resource royaltiesResource) {
+        if (!player.getState().canPayRoyalties()) {
+            return;
+        }
         List<Player> otherPlayers = GameManager.getInstance().getPlayers().stream()
                 .filter(p -> !player.equals(p))
                 .toList();

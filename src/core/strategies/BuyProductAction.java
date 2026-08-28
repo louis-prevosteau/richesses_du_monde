@@ -45,8 +45,14 @@ public class BuyProductAction implements ISquareAction {
 
     @Override
     public void execute(Player player) {
-
-        System.out.println(getDescription());
+        if (!player.getState().canBuy()) {
+            System.out.println(
+                    player.getName()
+                            + " ne peut pas acheter."
+            );
+            return;
+        }
+        else System.out.println(getDescription());
 
         int purchasesThisTurn = 0;
 

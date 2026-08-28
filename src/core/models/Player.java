@@ -116,7 +116,7 @@ public class Player {
     }
 
     public void move(int steps) {
-        position = (position + steps) % 66;
+        position = (position + steps) % 65;
     }
 
     public void addJoker(JokerCard card) {
@@ -179,6 +179,8 @@ public class Player {
         }
         jokers.clear();
         state = new BankruptState();
+        GameManager.getInstance()
+                .notifyPlayerBankrupt(this);
     }
 
     public void setState(IPlayerState state) {
