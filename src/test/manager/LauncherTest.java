@@ -268,14 +268,19 @@ public class LauncherTest {
     @DisplayName("playTurn() permet de passer au joueur suivant")
     void testPlayTurnNextPlayer() {
 
-        GameManager.getInstance().addPlayer(new Player("Alice"));
-        GameManager.getInstance().addPlayer(new Player("Bob"));
+        Player alice = new Player("Alice");
+        Player bob = new Player("Bob");
+
+        GameManager.getInstance().addPlayer(alice);
+        GameManager.getInstance().addPlayer(bob);
         GameManager.getInstance().startGame();
+
+        alice.setHasPlayed(true);
 
         Launcher.setScanner(
                 new Scanner(
                         new ByteArrayInputStream(
-                                "1\n".getBytes(StandardCharsets.UTF_8)
+                                "0\n".getBytes(StandardCharsets.UTF_8)
                         )
                 )
         );
