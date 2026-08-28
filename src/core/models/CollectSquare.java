@@ -46,7 +46,6 @@ public class CollectSquare implements ISquare {
 
     @Override
     public void landOn(Player player) {
-        System.out.println(player.getName() + " arrive sur la case " + getName());
         if (royaltiesResource != null) Utils.payRoyalties(player, royaltiesResource);
         action.execute(player);
     }

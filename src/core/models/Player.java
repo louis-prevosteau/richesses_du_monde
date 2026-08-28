@@ -23,6 +23,7 @@ public class Player {
     private Map<Resource, List<IProduct>> properties;
     private List<JokerCard> jokers;
     private IPlayerState state;
+    private boolean hasPlayed;
 
     private static final SecureRandom random = new SecureRandom();
 
@@ -185,5 +186,13 @@ public class Player {
 
     public void setState(IPlayerState state) {
         this.state = state;
+    }
+
+    public boolean hasPlayed() {
+        return hasPlayed;
+    }
+
+    public void setHasPlayed(boolean hasPlayed) {
+        this.hasPlayed = hasPlayed;
     }
 }

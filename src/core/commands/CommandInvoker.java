@@ -17,7 +17,7 @@ public class CommandInvoker {
         history.push(command);
     }
 
-    public void showHistory() {};
-
-    public void clear() {}
+    public void showHistory() {
+        for (ICommand command : history) System.out.println("- " + command.getDescription());
+    }
 }

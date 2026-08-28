@@ -57,7 +57,6 @@ public class ProductSquare implements ISquare {
 
     @Override
     public void landOn(Player player) {
-        System.out.println(player.getName() + " arrive sur la case " + name);
         if (royaltiesResource != null) Utils.payRoyalties(player, royaltiesResource);
         action.execute(player);
     }

@@ -4,6 +4,7 @@ import core.commands.ICommand;
 import core.enums.GameState;
 import core.enums.Resource;
 import core.models.Player;
+import core.observers.ScoreboardObserver;
 import core.products.IProduct;
 
 import java.util.ArrayList;
@@ -21,10 +22,6 @@ public class Launcher {
     }
 
     private record Action(String label, Runnable run) {}
-
-    private interface CommandFactory {
-        ICommand create(IProduct product);
-    }
 
     public static void start(boolean runLoop) {
         initGame();
@@ -66,20 +63,23 @@ public class Launcher {
 
     private static List<Action> buildActions(Player player) {
         List<Action> actions = new ArrayList<>();
-        actions.add(new Action("Lancer les dés",
-                () -> {
-                    player.getState().takeTurn(player);
-
-                    System.out.println("Nouvelle position : " +
-                            manager.getBoard().getSquare(player.getPosition()).getName());
-
-                    manager.getBoard()
-                            .getSquares()
-                            .get(player.getPosition())
-                            .landOn(player);
-                }));
-        actions.add(new Action("Joueur suivant", () -> manager.nextPlayer()));
+        if (!player.hasPlayed())
+            actions.add(new Action("Lancer les dés",
+                    () -> {
+                        player.getState().takeTurn(player);
+                        player.setHasPlayed(true);
+                        manager.getBoard()
+                                .getSquares()
+                                .get(player.getPosition())
+                                .landOn(player);
+                    }));
+        else
+            actions.add(new Action("Joueur suivant", () -> {
+            player.setHasPlayed(false);
+            manager.nextPlayer();
+        }));
         actions.add(new Action("Voir propriétés", () -> showProperties(player)));
+        actions.add(new Action("Voir l'historique", () -> manager.getInvoker().showHistory()));
         return actions;
     }
 
@@ -101,6 +101,7 @@ public class Launcher {
             String name = scanner.nextLine();
             manager.addPlayer(new Player(name));
         }
+        manager.addObserver(new ScoreboardObserver());
         manager.startGame();
     }
 }

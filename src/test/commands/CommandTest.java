@@ -77,7 +77,6 @@ public class CommandTest {
     @Test()
     @DisplayName("DrawCardCommand doit tirer une carte Actualités et appliqué son effet au joueur")
     void testDrawCardCommandNewsApplyingEffect() {
-        int initMoney = player.getMoney();
         GameManager.getInstance().reset();
         command = new DrawCardCommand(player, CardType.NEWS);
         command.execute();

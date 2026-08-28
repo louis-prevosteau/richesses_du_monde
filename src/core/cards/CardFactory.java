@@ -28,7 +28,7 @@ public class CardFactory {
                         Resource.BLE,
                         new int[]{7000000, 5000000})
                 .addReceiveCard(
-                        "Votre entreprise de plogée sous-marine découvre une galère antique contenant un important trésor. Cela vous rapporte 3 milllions.",
+                        "Votre entreprise de plongée sous-marine découvre une galère antique contenant un important trésor. Cela vous rapporte 3 milllions.",
                         null,
                         new int[]{3000000})
                 .addReceiveCard(

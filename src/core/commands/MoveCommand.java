@@ -1,5 +1,6 @@
 package core.commands;
 
+import core.manager.GameManager;
 import core.models.Player;
 
 public class MoveCommand implements ICommand {
@@ -14,7 +15,7 @@ public class MoveCommand implements ICommand {
 
     @Override
     public String getDescription() {
-        return "Déplacement du joueur";
+        return "Déplacement de " + player.getName() + " vers la case " + GameManager.getInstance().getBoard().getSquare(player.getPosition()).getName();
     }
 
     @Override

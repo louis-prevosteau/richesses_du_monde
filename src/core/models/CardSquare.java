@@ -28,7 +28,6 @@ public class CardSquare implements ISquare {
 
     @Override
     public void landOn(Player player) {
-        System.out.println(player.getName() + " arrive sur la case " + getName());
         action.execute(player);
     }
 }

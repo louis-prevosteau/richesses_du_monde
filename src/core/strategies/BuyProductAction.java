@@ -183,6 +183,8 @@ public class BuyProductAction implements ISquareAction {
                             + " | "
                             + product.getPercentage()
                             + "%"
+                            + " | "
+                            + product.getRegion()
                             + " | Prix : "
                             + product.getPrice()
                             + " €"

@@ -31,11 +31,6 @@ public class GameManager {
     private GameManager() {
         this.board = new Board();
 
-        System.out.println(
-                "Nombre de cases = "
-                        + board.getSquares().size()
-        );
-
         int[] productPositions = {1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 31, 32, 33, 37, 38, 39, 40, 41, 42, 43, 46, 47, 51, 52, 53, 54, 55, 56, 57, 60, 61};
         int[] salePositions = {10, 28, 36, 50, 64};
         int[] collectPositions = {11, 17, 29, 35, 45, 49, 59, 63};
