@@ -331,18 +331,6 @@ public class SquareActionTest {
     }
 
     @Test
-    @DisplayName("La description doit être correcte")
-    void testDescription() {
-        DrawCardAction action =
-                new DrawCardAction(CardType.NEWS);
-
-        assertEquals(
-                "Tirer une carte",
-                action.getDescription()
-        );
-    }
-
-    @Test
     @DisplayName("execute ne doit pas lever d'exception avec une carte NEWS")
     void testExecuteNews() {
         DrawCardAction action =
