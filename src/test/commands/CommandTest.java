@@ -69,6 +69,7 @@ public class CommandTest {
         IProduct product = new Product(Resource.PETROLE, 15, 42, Continent.ASIA_OCEANIA, Region.MOYEN_ORIENT, "Qatar");
         command = new BuyProductCommand(player, product);
         command.execute();
+        player.displayProfile();
         assertTrue(player.getProperties().getOrDefault(Resource.PETROLE, Collections.emptyList()).contains(product));
         assertEquals(product.getOwner(), player);
     }
