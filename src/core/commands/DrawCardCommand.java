@@ -27,6 +27,8 @@ public class DrawCardCommand implements ICommand {
                 ? manager.getNews().draw()
                 : manager.getJokers().draw();
 
+        manager.notifyCardDrawn(player, card);
+
         if (card != null) {
             card.apply(player);
         }

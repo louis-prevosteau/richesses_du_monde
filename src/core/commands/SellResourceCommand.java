@@ -133,12 +133,9 @@ public class SellResourceCommand implements ICommand {
             product.setOwner(highestBidder);
         }
 
-        System.out.println(
-                highestBidder.getName()
-                        + " remporte l'enchère pour "
-                        + currentPrice
-                        + " €"
-        );
+        GameManager
+                .getInstance()
+                .notifyPlayerSold(seller, highestBidder, products.getFirst().getResource(), products.size(), currentPrice);
     }
 
     @Override

@@ -32,7 +32,9 @@ public class SellResourceAction implements ISquareAction {
             GameManager.getInstance()
                     .getInvoker()
                     .executeCommand(new UseJokerCommand(player));
-            System.out.println(player.getName() + "utilise une carte Joker et annule la vente.");
+            GameManager
+                    .getInstance()
+                    .notifyJokerUsed(player);
             return;
         }
 

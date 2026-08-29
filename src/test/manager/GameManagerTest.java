@@ -1,10 +1,13 @@
 package test.manager;
 
-import core.enums.GameState;
+import core.cards.ICard;
+import core.cards.PayCard;
+import core.enums.*;
 import core.manager.GameManager;
 import core.models.Player;
 import core.observers.IGameObserver;
 import core.products.IProduct;
+import core.products.Product;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -122,6 +125,50 @@ public class GameManagerTest {
     }
 
     @Test
+    @DisplayName("notifyPlayerSold appelle les observers")
+    void testNotifyPlayerSold() {
+        TestObserver obs = new TestObserver();
+        manager.addObserver(obs);
+        Player alice = new Player("Alice");
+        Player bob = new Player("Bob");
+        IProduct product = new Product(Resource.PETROLE, 15, 42, Continent.ASIA_OCEANIA, Region.MOYEN_ORIENT, "Qatar");
+        int price = 4000000;
+        manager.notifyPlayerSold(alice, bob, product.getResource(), 1, price);
+        assertTrue(obs.productSold);
+    }
+
+    @Test
+    @DisplayName("notifyTurnStarted appelle les observers")
+    void testNotifyTurnStarted() {
+        TestObserver obs = new TestObserver();
+        manager.addObserver(obs);
+        Player p = new Player("Alice");
+        manager.notifyTurnStarted(p);
+        assertTrue(obs.turnStarted);
+    }
+
+    @Test
+    @DisplayName("notifyCardDrawn appelle les observers")
+    void testNotifyCardDrawn() {
+        TestObserver obs = new TestObserver();
+        manager.addObserver(obs);
+        Player p = new Player("Alice");
+        ICard card = new PayCard("Test", CardType.NEWS, new int[] {1000000}, null);
+        manager.notifyCardDrawn(p, card);
+        assertTrue(obs.cardDrawn);
+    }
+
+    @Test
+    @DisplayName("notifyJokerUsed appelle les observers")
+    void testNotifyJokerUsed() {
+        TestObserver obs = new TestObserver();
+        manager.addObserver(obs);
+        Player p = new Player("Alice");
+        manager.notifyJokerUsed(p);
+        assertTrue(obs.jokerUsed);
+    }
+
+    @Test
     @DisplayName("notifyPlayerBankrupt() retire le joueur")
     void testPlayerBankruptRemovesPlayer() {
         Player p1 = new Player("A");
@@ -173,6 +220,10 @@ public class GameManagerTest {
         boolean playerMoved = false;
         boolean productBought = false;
         boolean playerBankrupt = false;
+        boolean productSold = false;
+        boolean cardDrawn = false;
+        boolean turnStarted = false;
+        boolean jokerUsed = false;
 
         @Override
         public void onGameStarted() {
@@ -197,6 +248,26 @@ public class GameManagerTest {
         @Override
         public void onPlayerBankrupt(Player player) {
             playerBankrupt = true;
+        }
+
+        @Override
+        public void onPlayerTurnStarted(Player player) {
+            turnStarted = true;
+        }
+
+        @Override
+        public void onProductSold(Player seller, Player buyer, Resource resource, int productsSize, int price) {
+            productSold = true;
+        }
+
+        @Override
+        public void onCardDrawn(Player player, ICard card) {
+            cardDrawn = true;
+        }
+
+        @Override
+        public void onJokerUsed(Player player) {
+            jokerUsed = true;
         }
     }
 }

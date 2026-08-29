@@ -37,6 +37,10 @@ public class Launcher {
     public static void playTurn() {
         Player player = manager.getCurrentPlayer();
 
+        GameManager
+                .getInstance()
+                .notifyTurnStarted(player);
+
         List<Action> actions = buildActions(player);
 
         showActions(actions);

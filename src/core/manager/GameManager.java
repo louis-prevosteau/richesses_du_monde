@@ -2,9 +2,11 @@ package core.manager;
 
 import core.cards.CardDeck;
 import core.cards.CardFactory;
+import core.cards.ICard;
 import core.commands.CommandInvoker;
 import core.enums.CardType;
 import core.enums.GameState;
+import core.enums.Resource;
 import core.factories.*;
 import core.models.Board;
 import core.products.IProduct;
@@ -114,6 +116,26 @@ public class GameManager {
     public void notifyPlayerBought(Player player, IProduct product) {
         for (IGameObserver observer : observers)
             observer.onProductBought(player, product);
+    }
+
+    public void notifyPlayerSold(Player seller, Player buyer, Resource resource, int productsSize, int price) {
+        for (IGameObserver observer : observers)
+            observer.onProductSold(seller, buyer, resource, productsSize, price);
+    }
+
+    public void notifyTurnStarted(Player player) {
+        for (IGameObserver observer : observers)
+            observer.onPlayerTurnStarted(player);
+    }
+
+    public void notifyCardDrawn(Player player, ICard card) {
+        for (IGameObserver observer : observers)
+            observer.onCardDrawn(player, card);
+    }
+
+    public void notifyJokerUsed(Player player) {
+        for (IGameObserver observer : observers)
+            observer.onJokerUsed(player);
     }
 
     public void notifyPlayerBankrupt(Player player) {

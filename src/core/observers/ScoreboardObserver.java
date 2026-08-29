@@ -1,5 +1,7 @@
 package core.observers;
 
+import core.cards.ICard;
+import core.enums.Resource;
 import core.manager.GameManager;
 import core.models.Board;
 import core.products.IProduct;
@@ -59,5 +61,28 @@ public class ScoreboardObserver implements IGameObserver {
                 .flatMap(List::stream)
                 .mapToInt(IProduct::getPrice)
                 .sum();
+    }
+
+    @Override
+    public void onPlayerTurnStarted(Player player) {
+        System.out.println("[SCOREBOARD] Au tour de " + player.getName());
+    }
+
+    @Override
+    public void onProductSold(Player seller, Player buyer, Resource resource, int productsSize, int price) {
+        updatePlayerScore(seller);
+        updatePlayerScore(buyer);
+        System.out.println("[SCOREBOARD] " + seller.getName() + " a vendu " + resource.getName() + "(" + productsSize + " produit(s))" + " pour " + price + " €");
+        System.out.println("[SCOREBOARD] " + buyer.getName() + " remporte l'enchère");
+    }
+
+    @Override
+    public void onCardDrawn(Player player, ICard card) {
+        System.out.println("[SCOREBOARD] " + player.getName() + " a tirer une carte " + card.getType().getName());
+    }
+
+    @Override
+    public void onJokerUsed(Player player) {
+        System.out.println("[SCOREBOARD] " + player.getName() + " a utilisé un joker");
     }
 }
