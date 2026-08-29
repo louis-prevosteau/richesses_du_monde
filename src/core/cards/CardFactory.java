@@ -116,9 +116,8 @@ public class CardFactory {
             return this;
         }
 
-        public CardDeckBuilder addJokerCard(String description) {
+        public void addJokerCard(String description) {
             deck.addCard(new JokerCard(description, CardType.JOKER));
-            return this;
         }
 
         public CardDeck build() {

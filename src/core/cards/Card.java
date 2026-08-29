@@ -6,8 +6,8 @@ import core.models.Player;
 
 public abstract class Card implements ICard {
 
-    private String description;
-    private CardType type;
+    private final String description;
+    private final CardType type;
 
     public Card(String description, CardType type) {
         this.description = description;

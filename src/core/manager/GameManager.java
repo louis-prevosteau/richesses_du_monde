@@ -20,10 +20,10 @@ public class GameManager {
 
     private static GameManager instance;
     private CommandInvoker invoker;
-    private Board board;
-    private List<Player> players;
+    private final Board board;
+    private final List<Player> players;
     private GameState currentState;
-    private List<IGameObserver> observers;
+    private final List<IGameObserver> observers;
     private int currentPlayerIndex;
     private CardDeck news, jokers;
     private Shop shop;
@@ -92,8 +92,6 @@ public class GameManager {
     }
 
     public Player getCurrentPlayer() { return players.get(currentPlayerIndex); }
-
-    public List<IGameObserver> getObservers() { return observers; }
 
     public void addObserver(IGameObserver observer) {
         observers.add(observer);

@@ -18,10 +18,15 @@ import java.util.Map;
 
 public class Player {
 
-    private String name;
-    private int money, position, dice1, dice2, totalDice, boardTour;
-    private Map<Resource, List<IProduct>> properties;
-    private List<JokerCard> jokers;
+    private final String name;
+    private int money;
+    private int position;
+    private int dice1;
+    private int dice2;
+    private int totalDice;
+    private final int boardTour;
+    private final Map<Resource, List<IProduct>> properties;
+    private final List<JokerCard> jokers;
     private IPlayerState state;
     private boolean hasPlayed;
 

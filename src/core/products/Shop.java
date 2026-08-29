@@ -2,7 +2,6 @@ package core.products;
 
 import core.enums.Continent;
 import core.enums.Region;
-import core.enums.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +10,7 @@ import java.util.Map;
 
 public class Shop {
 
-    private Map<Region, List<IProduct>> products;
+    private final Map<Region, List<IProduct>> products;
 
     public Shop() {
         this.products = new HashMap<>();

@@ -2,7 +2,7 @@ package core.models;
 
 public class GoSquare implements ISquare {
 
-    private int position;
+    private final int position;
 
     public GoSquare(int position) {
         this.position = position;

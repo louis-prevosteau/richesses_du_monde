@@ -39,10 +39,9 @@ public class ProductSquare implements ISquare {
 
     private Resource getRandomResource() {
         List<Resource> availableResources = Arrays.stream(Resource.values()).toList();
-        Resource resource = availableResources.get(
+        return availableResources.get(
                 ThreadLocalRandom.current().nextInt(availableResources.size())
         );
-        return resource;
     }
 
     @Override

@@ -7,7 +7,7 @@ import core.models.Player;
 
 public class DrawCardAction implements ISquareAction {
 
-    private CardType type;
+    private final CardType type;
 
     public DrawCardAction(CardType type) {
         this.type = type;

@@ -42,8 +42,6 @@ public class CardDeck implements Iterable<ICard> {
         return cards.size();
     }
 
-    public void clear() { cards.clear(); }
-
     @Override
     public Iterator<ICard> iterator() {
         return new CardIterator();

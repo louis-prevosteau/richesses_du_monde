@@ -6,9 +6,9 @@ import core.strategies.ISquareAction;
 
 public class CardSquare implements ISquare {
 
-    private CardType type;
-    private int position;
-    private ISquareAction action;
+    private final CardType type;
+    private final int position;
+    private final ISquareAction action;
 
     public CardSquare(CardType type, int position) {
         this.type = type;

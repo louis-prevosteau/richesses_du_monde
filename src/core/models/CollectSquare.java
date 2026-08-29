@@ -11,9 +11,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CollectSquare implements ISquare {
 
-    private int position;
-    private ISquareAction action;
-    private Resource royaltiesResource;
+    private final int position;
+    private final ISquareAction action;
+    private final Resource royaltiesResource;
 
     public CollectSquare(int position) {
         this.position = position;

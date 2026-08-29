@@ -6,7 +6,7 @@ import core.models.Player;
 
 public class ReceiveMoneyAction implements ISquareAction {
 
-    private int amount;
+    private final int amount;
 
     public ReceiveMoneyAction(int amount) {
         this.amount = amount;

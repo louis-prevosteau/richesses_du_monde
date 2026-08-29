@@ -7,11 +7,12 @@ import core.models.Player;
 
 public class Product implements IProduct {
 
-    private Resource resource;
-    private int percentage, price;
-    private Continent continent;
-    private Region region;
-    private String country;
+    private final Resource resource;
+    private final int percentage;
+    private final int price;
+    private final Continent continent;
+    private final Region region;
+    private final String country;
     private Player owner;
 
     public Product(Resource resource, int percentage, int price, Continent continent, Region region, String country) {

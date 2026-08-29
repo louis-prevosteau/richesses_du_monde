@@ -159,7 +159,7 @@ public class ProductFactory {
 
     public static class ShopBuilder {
 
-        private Shop shop;
+        private final Shop shop;
 
         public ShopBuilder() {
             this.shop = new Shop();

@@ -6,7 +6,7 @@ import core.models.ISquare;
 
 public class CardSquareFactory extends SquareFactory {
 
-    private CardType type;
+    private final CardType type;
 
     public CardSquareFactory(CardType type) {
         this.type = type;

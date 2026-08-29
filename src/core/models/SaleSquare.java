@@ -5,8 +5,8 @@ import core.strategies.SellResourceAction;
 
 public class SaleSquare implements ISquare {
 
-    private int position;
-    private ISquareAction action;
+    private final int position;
+    private final ISquareAction action;
 
     public SaleSquare(int position) {
         this(position, new SellResourceAction());
