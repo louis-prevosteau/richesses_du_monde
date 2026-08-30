@@ -1,11 +1,13 @@
 package core.cards;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 public class CardDeck implements Iterable<ICard> {
 
     private final List<ICard> cards;
     private int currentIndex;
+    private static final Logger logger = Logger.getLogger(CardDeck.class.getName());
 
     public CardDeck() {
         this.cards = new ArrayList<>();
@@ -25,13 +27,13 @@ public class CardDeck implements Iterable<ICard> {
     public ICard draw() {
         ICard card = cards.get(currentIndex);
         currentIndex = (currentIndex + 1) % cards.size();
-        System.out.println("Carte tirée: " + card.getDescription());
+        logger.info("Carte tirée: " + card.getDescription());
         return card;
     }
 
     public void returnsCard(ICard card) {
         cards.add(card);
-        System.out.println("Carte remise dans le paquet");
+        logger.info("Carte remise dans le paquet");
     }
 
     public boolean isEmpty() {

@@ -1,5 +1,6 @@
 package core.observers;
 
+import core.cards.CardDeck;
 import core.cards.ICard;
 import core.enums.Resource;
 import core.manager.GameManager;
@@ -8,51 +9,53 @@ import core.products.IProduct;
 import core.models.Player;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ScoreboardObserver implements IGameObserver {
 
     public static final String SCOREBOARD = "[SCOREBOARD] ";
+    private static final Logger logger = Logger.getLogger(ScoreboardObserver.class.getName());
 
     @Override
     public void onPlayerMoved(Player player, int position) {
         Board board = GameManager.getInstance().getBoard();
-        System.out.println(SCOREBOARD + player.getName() + " est maintenant sur la case " + board.getSquare(position).getName());
+        logger.info(SCOREBOARD + player.getName() + " est maintenant sur la case " + board.getSquare(position).getName());
     }
 
     @Override
     public void onProductBought(Player player, IProduct product) {
         updatePlayerScore(player);
-        System.out.println(SCOREBOARD + player.getName() + " a acheté " + product.getResource().getName() + " : " + product.getPercentage()+ "% - Provenance : " + product.getRegion() + " pour " + product.getPrice() + " €");
+        logger.info(SCOREBOARD + player.getName() + " a acheté " + product.getResource().getName() + " : " + product.getPercentage()+ "% - Provenance : " + product.getRegion() + " pour " + product.getPrice() + " €");
     }
 
     @Override
     public void onPlayerBankrupt(Player player) {
-        System.out.println(SCOREBOARD + player.getName() + " a fait faillite");
+        logger.info(SCOREBOARD + player.getName() + " a fait faillite");
         displayFinalScore(player);
     }
 
     @Override
     public void onGameStarted() {
-        System.out.println("[SCOREBOARD] ========== DÉBUT DE LA PARTIE ==========");
+        logger.info("[SCOREBOARD] ========== DÉBUT DE LA PARTIE ==========");
     }
 
     @Override
     public void onGameOver(Player winner) {
-        System.out.println("[SCOREBOARD] ========== FIN DE LA PARTIE ==========");
-        System.out.println("[SCOREBOARD] Vaiqueur : " + winner.getName());
+        logger.info("[SCOREBOARD] ========== FIN DE LA PARTIE ==========");
+        logger.info("[SCOREBOARD] Vaiqueur : " + winner.getName());
         displayFinalScore(winner);
     }
 
     private void updatePlayerScore(Player player) {
         int totalValue = player.getMoney() + calculatePropertiesValue(player);
-        System.out.println("[SCOREBOARD] Valeur totale de " + player.getName() + ": " + totalValue + "€");
+        logger.info("[SCOREBOARD] Valeur totale de " + player.getName() + ": " + totalValue + "€");
     }
 
     private void displayFinalScore(Player player) {
-        System.out.println("[SCOREBOARD] Score final:");
-        System.out.println("[SCOREBOARD]   - Argent: " + player.getMoney() + "€");
-        System.out.println("[SCOREBOARD]   - Propriétés: " + player.getProperties().size());
-        System.out.println("[SCOREBOARD]   - Valeur totale: " +
+        logger.info("[SCOREBOARD] Score final:");
+        logger.info("[SCOREBOARD]   - Argent: " + player.getMoney() + "€");
+        logger.info("[SCOREBOARD]   - Propriétés: " + player.getProperties().size());
+        logger.info("[SCOREBOARD]   - Valeur totale: " +
                 (player.getMoney() + calculatePropertiesValue(player)) + "€");
     }
 
@@ -67,24 +70,24 @@ public class ScoreboardObserver implements IGameObserver {
 
     @Override
     public void onPlayerTurnStarted(Player player) {
-        System.out.println("[SCOREBOARD] Au tour de " + player.getName());
+        logger.info("[SCOREBOARD] Au tour de " + player.getName());
     }
 
     @Override
     public void onProductSold(Player seller, Player buyer, Resource resource, int productsSize, int price) {
         updatePlayerScore(seller);
         updatePlayerScore(buyer);
-        System.out.println(SCOREBOARD + seller.getName() + " a vendu " + resource.getName() + "(" + productsSize + " produit(s))" + " pour " + price + " €");
-        System.out.println(SCOREBOARD + buyer.getName() + " remporte l'enchère");
+        logger.info(SCOREBOARD + seller.getName() + " a vendu " + resource.getName() + "(" + productsSize + " produit(s))" + " pour " + price + " €");
+        logger.info(SCOREBOARD + buyer.getName() + " remporte l'enchère");
     }
 
     @Override
     public void onCardDrawn(Player player, ICard card) {
-        System.out.println(SCOREBOARD + player.getName() + " a tirer une carte " + card.getType().getName());
+        logger.info(SCOREBOARD + player.getName() + " a tirer une carte " + card.getType().getName());
     }
 
     @Override
     public void onJokerUsed(Player player) {
-        System.out.println(SCOREBOARD + player.getName() + " a utilisé un joker");
+        logger.info(SCOREBOARD + player.getName() + " a utilisé un joker");
     }
 }

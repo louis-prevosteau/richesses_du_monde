@@ -1,5 +1,6 @@
 package core.models;
 
+import core.cards.CardDeck;
 import core.cards.JokerCard;
 import core.enums.Resource;
 import core.manager.GameManager;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class Player {
 
@@ -31,6 +33,7 @@ public class Player {
     private boolean hasPlayed;
 
     private static final SecureRandom random = new SecureRandom();
+    private static final Logger logger = Logger.getLogger(Player.class.getName());
 
     public Player(String name) {
         this.name = name;
@@ -142,14 +145,14 @@ public class Player {
     }
 
     public void displayProfile() {
-        System.out.println("\n═══════════════════════════════════════");
-        System.out.println("Profil de " + name);
-        System.out.println("═══════════════════════════════════════");
-        System.out.println("Argent: " + money + "€");
-        System.out.println("Ressources: ");
+        logger.info("\n═══════════════════════════════════════");
+        logger.info("Profil de " + name);
+        logger.info("═══════════════════════════════════════");
+        logger.info("Argent: " + money + "€");
+        logger.info("Ressources: ");
 
         if (!properties.isEmpty()) {
-            System.out.println("\nDétail des propriétés:");
+            logger.info("\nDétail des propriétés:");
             for (Map.Entry<Resource, List<IProduct>> entry : properties.entrySet()) {
 
                 int totalPercentage = entry.getValue()
@@ -157,7 +160,7 @@ public class Player {
                         .mapToInt(IProduct::getPercentage)
                         .sum();
 
-                System.out.println(
+                logger.info(
                         "- " + entry.getKey().getName()
                                 + " : " + totalPercentage
                                 + "% (" + entry.getValue().size()
@@ -167,7 +170,7 @@ public class Player {
                 );
             }
         }
-        System.out.println("═══════════════════════════════════════\n");
+        logger.info("═══════════════════════════════════════\n");
     }
 
     public void declareBankruptcy() {

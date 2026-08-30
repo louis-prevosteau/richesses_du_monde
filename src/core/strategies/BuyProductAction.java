@@ -1,5 +1,6 @@
 package core.strategies;
 
+import core.cards.CardDeck;
 import core.commands.BuyProductCommand;
 import core.enums.Continent;
 import core.enums.Region;
@@ -10,12 +11,14 @@ import core.products.IProduct;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class BuyProductAction implements ISquareAction {
 
     private final Continent continent;
     private final Region region;
     private final Scanner scanner;
+    private static final Logger logger = Logger.getLogger(BuyProductAction.class.getName());
 
     public BuyProductAction(
             Continent continent,
@@ -46,13 +49,13 @@ public class BuyProductAction implements ISquareAction {
     @Override
     public void execute(Player player) {
         if (!player.getState().canBuy()) {
-            System.out.println(
+            logger.severe(
                     player.getName()
                             + " ne peut pas acheter."
             );
             return;
         }
-        else System.out.println(getDescription());
+        else logger.info(getDescription());
 
         int purchasesThisTurn = 0;
 
@@ -62,7 +65,7 @@ public class BuyProductAction implements ISquareAction {
                     getAvailableProducts();
 
             if (availableProducts.isEmpty()) {
-                System.out.println(
+                logger.info(
                         "Aucun produit disponible."
                 );
                 return;
@@ -72,7 +75,7 @@ public class BuyProductAction implements ISquareAction {
                     getPlayerChoice(availableProducts);
 
             if (response == -1) {
-                System.out.println(
+                logger.info(
                         player.getName()
                                 + " arrête ses achats."
                 );
@@ -83,7 +86,7 @@ public class BuyProductAction implements ISquareAction {
                     response < 0
                             || response >= availableProducts.size()
             ) {
-                System.out.println("Choix invalide.");
+                logger.info("Choix invalide.");
                 continue;
             }
 
@@ -109,14 +112,14 @@ public class BuyProductAction implements ISquareAction {
                     .getInstance()
                     .notifyPlayerBought(player, product);
 
-            System.out.println(
+            logger.info(
                     "Achats ce tour : "
                             + purchasesThisTurn
                             + "/6"
             );
         }
 
-        System.out.println(
+        logger.warning(
                 "Limite de 6 achats atteinte pour ce tour."
         );
     }
@@ -163,7 +166,7 @@ public class BuyProductAction implements ISquareAction {
             List<IProduct> products
     ) {
 
-        System.out.println(
+        logger.info(
                 "\nProduits disponibles :"
         );
 
@@ -176,7 +179,7 @@ public class BuyProductAction implements ISquareAction {
             IProduct product =
                     products.get(i);
 
-            System.out.println(
+            logger.info(
                     i
                             + " - "
                             + product.getResource()
@@ -191,7 +194,7 @@ public class BuyProductAction implements ISquareAction {
             );
         }
 
-        System.out.println(
+        logger.info(
                 "-1 - Terminer les achats"
         );
 
@@ -207,7 +210,7 @@ public class BuyProductAction implements ISquareAction {
                 NumberFormatException e
         ) {
 
-            System.out.println(
+            logger.info(
                     "Veuillez saisir un nombre."
             );
 

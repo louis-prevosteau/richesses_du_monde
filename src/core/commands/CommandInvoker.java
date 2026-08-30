@@ -1,10 +1,14 @@
 package core.commands;
 
+import core.cards.CardDeck;
+
 import java.util.Stack;
+import java.util.logging.Logger;
 
 public class CommandInvoker {
 
     private final Stack<ICommand> history = new Stack<>();
+    private static final Logger logger = Logger.getLogger(CommandInvoker.class.getName());
 
     public Stack<ICommand> getHistory() {
         return history;
@@ -18,6 +22,6 @@ public class CommandInvoker {
     }
 
     public void showHistory() {
-        for (ICommand command : history) System.out.println("- " + command.getDescription());
+        for (ICommand command : history) logger.info("- " + command.getDescription());
     }
 }

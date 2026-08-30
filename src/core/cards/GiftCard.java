@@ -7,10 +7,12 @@ import core.manager.GameManager;
 import core.models.Player;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class GiftCard extends Card {
 
     private final int amountPerPlayer;
+    private static final Logger logger = Logger.getLogger(GiftCard.class.getName());
 
     public GiftCard(String description, CardType type, int amountPerPlayer) {
         super(description, type);
@@ -19,7 +21,7 @@ public class GiftCard extends Card {
 
     @Override
     public void executeEffect(Player player) {
-        System.out.println(getDescription());
+        logger.info(getDescription());
         collectFromAllPlayers(player, GameManager.getInstance().getPlayers());
         returnToDeck();
     }
@@ -39,11 +41,11 @@ public class GiftCard extends Card {
             totalReceived += amountPerPlayer;
             playersWhoCouldPay++;
 
-            System.out.println("    ✓ " + otherPlayer.getName() +
+            logger.info(otherPlayer.getName() +
                     " donne " + amountPerPlayer + "€");
         }
 
-        System.out.println("  ✓ " + player.getName() + " reçoit " +
+        logger.info(player.getName() + " reçoit " +
                 totalReceived + "€ au total (" +
                 playersWhoCouldPay + " joueur(s))");
     }

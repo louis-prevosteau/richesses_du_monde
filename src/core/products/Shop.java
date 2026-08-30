@@ -1,5 +1,6 @@
 package core.products;
 
+import core.cards.CardDeck;
 import core.enums.Continent;
 import core.enums.Region;
 
@@ -7,10 +8,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class Shop {
 
     private final Map<Region, List<IProduct>> products;
+    private static final Logger logger = Logger.getLogger(Shop.class.getName());
 
     public Shop() {
         this.products = new HashMap<>();
@@ -62,6 +65,6 @@ public class Shop {
         products
                 .computeIfAbsent(product.getRegion(), k -> new ArrayList<>())
                 .add(product);
-        System.out.println("Le produit a été remis dans le magasin.");
+        logger.info("Le produit a été remis dans le magasin.");
     }
 }

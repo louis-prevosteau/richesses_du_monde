@@ -7,10 +7,12 @@ import core.manager.GameManager;
 import core.models.Player;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class JokerCard extends Card {
 
     private final Scanner scanner;
+    private static final Logger logger = Logger.getLogger(JokerCard.class.getName());
 
     public JokerCard(String description, CardType type) {
         super(description, type);
@@ -28,8 +30,8 @@ public class JokerCard extends Card {
 
     @Override
     public void executeEffect(Player player) {
-        System.out.println(getDescription());
-        System.out.println(player.getName() + ", souhaitez-vous prendre une carte joker pour 3 000 000 € ? (1 : Oui, 0 : Non)");
+        logger.info(getDescription());
+        logger.info(player.getName() + ", souhaitez-vous prendre une carte joker pour 3 000 000 € ? (1 : Oui, 0 : Non)");
         int choice = scanner.nextInt();
         if (choice == 1) {
             GameManager
@@ -40,9 +42,9 @@ public class JokerCard extends Card {
                     .getInstance()
                     .getInvoker()
                     .executeCommand(new AddJokerCardCommand(player, this));
-            System.out.println(player.getName() + " prends une carte joker.");
+            logger.info(player.getName() + " prends une carte joker.");
         }
         else
-            System.out.println(player.getName() + " ne prend pas de carte joker.");
+            logger.info(player.getName() + " ne prend pas de carte joker.");
     }
 }

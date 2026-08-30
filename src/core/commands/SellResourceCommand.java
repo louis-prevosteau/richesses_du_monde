@@ -1,5 +1,6 @@
 package core.commands;
 
+import core.cards.CardDeck;
 import core.manager.GameManager;
 import core.models.Player;
 import core.products.IProduct;
@@ -7,6 +8,7 @@ import core.strategies.AuctionResult;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class SellResourceCommand implements ICommand {
 
@@ -14,6 +16,7 @@ public class SellResourceCommand implements ICommand {
     private final List<IProduct> products;
     private final int startingPrice;
     private final Scanner scanner;
+    private static final Logger logger = Logger.getLogger(SellResourceCommand.class.getName());
 
     public SellResourceCommand(
             Player seller,
@@ -74,7 +77,7 @@ public class SellResourceCommand implements ICommand {
     }
 
     private void returnProductsToShop() {
-        System.out.println(
+        logger.info(
                 "Aucune enchère. Les produits retournent au magasin."
         );
 
@@ -108,7 +111,7 @@ public class SellResourceCommand implements ICommand {
                     highestBidder = player;
                     bidPlaced = true;
 
-                    System.out.println(
+                    logger.info(
                             player.getName()
                                     + " enchérit à "
                                     + bid
@@ -133,16 +136,16 @@ public class SellResourceCommand implements ICommand {
             return 0;
         }
 
-        System.out.println(
+        logger.info(
                 "\n" + player.getName()
                         + ", voulez-vous enchérir ?"
         );
 
-        System.out.println(
+        logger.info(
                 "Prix actuel : " + price + " €"
         );
 
-        System.out.print(
+        logger.info(
                 "Montant (> "
                         + price
                         + ", 0 pour passer) : "

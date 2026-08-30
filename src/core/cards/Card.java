@@ -4,12 +4,15 @@ import core.enums.CardType;
 import core.manager.GameManager;
 import core.models.Player;
 
+import java.util.logging.Logger;
+
 public abstract class Card implements ICard {
 
     private final String description;
     private final CardType type;
+    private static final Logger logger = Logger.getLogger(Card.class.getName());
 
-    public Card(String description, CardType type) {
+    protected Card(String description, CardType type) {
         this.description = description;
         this.type = type;
     }
@@ -33,13 +36,13 @@ public abstract class Card implements ICard {
     public void returnToDeck() {
         GameManager gameManager = GameManager.getInstance();
         if (gameManager == null) {
-            System.err.println("❌ Erreur : GameManager non initialisé");
+            logger.severe("❌ Erreur : GameManager non initialisé");
             return;
         }
 
         CardType cardType = getType();
         if (cardType == null) {
-            System.err.println("❌ Erreur : Type de carte non défini");
+            logger.severe("❌ Erreur : Type de carte non défini");
             return;
         }
 

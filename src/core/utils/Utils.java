@@ -8,8 +8,11 @@ import core.models.Player;
 import core.products.IProduct;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Utils {
+
+    private static final Logger logger = Logger.getLogger(Utils.class.getName());
 
     public static void payRoyalties(Player player, Resource royaltiesResource) {
         if (!player.getState().canPayRoyalties()) {
@@ -23,8 +26,8 @@ public class Utils {
             if (royalties > 0) {
                 List<IProduct> ownedProducts = p.getPropertiesByResource(royaltiesResource);
                 int percentage = ownedProducts == null ? 0 : ownedProducts.stream().mapToInt(IProduct::getPercentage).sum();
-                System.out.println(p.getName() + " possède la ressource " + royaltiesResource.getName() + " (" + percentage + "%)");
-                System.out.println(player.getName() + ", vous payez " + royalties + " € à " + p.getName());
+                logger.info(p.getName() + " possède la ressource " + royaltiesResource.getName() + " (" + percentage + "%)");
+                logger.info(player.getName() + ", vous payez " + royalties + " € à " + p.getName());
                 GameManager.getInstance().getInvoker().executeCommand(new PayCommand(player, royalties));
                 GameManager.getInstance().getInvoker().executeCommand(new ReceiveCommand(p, royalties));
             }

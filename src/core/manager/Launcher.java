@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class Launcher {
 
     private static final GameManager manager = GameManager.getInstance();
     private static Scanner scanner = new Scanner(System.in);
+    private static final Logger logger = Logger.getLogger(Launcher.class.getName());
 
     public static void setScanner(Scanner scanner) {
         Launcher.scanner = scanner;
@@ -31,7 +33,7 @@ public class Launcher {
         while (manager.getCurrentState() != GameState.OVER) {
             playTurn();
         }
-        System.out.println("Partie terminée");
+        logger.info("Partie terminée");
     }
 
     public static void playTurn() {
@@ -55,13 +57,13 @@ public class Launcher {
     }
 
     private static void showActions(List<Action> actions) {
-        System.out.println("\nActions possibles :");
+        logger.info("\nActions possibles :");
 
         for (int i = 0; i < actions.size(); i++) {
-            System.out.println(i + " - " + actions.get(i).label());
+            logger.info(i + " - " + actions.get(i).label());
         }
 
-        System.out.print("> ");
+        logger.info("> ");
     }
 
     private static List<Action> buildActions(Player player) {
@@ -87,20 +89,20 @@ public class Launcher {
     }
 
     private static void showProperties(Player player) {
-        System.out.println("\nPropriétés :");
+        logger.info("\nPropriétés :");
         for (Map.Entry<Resource, List<IProduct>> entry : player.getProperties().entrySet()) {
-            System.out.println("- " + entry.getValue());
+            logger.info("- " + entry.getValue());
         }
     }
 
     private static void initGame() {
-        System.out.println("======= RICHESSES DU MONDE" +
+        logger.fine("======= RICHESSES DU MONDE" +
                 " ========");
-        System.out.print("Nombre de joueurs : ");
+        logger.info("Nombre de joueurs : ");
         int nbPlayers = scanner.nextInt();
         scanner.nextLine();
         for (int i = 0 ; i < nbPlayers ; i++) {
-            System.out.print("Nom du joueur " + (i + 1) + " : ");
+            logger.info("Nom du joueur " + (i + 1) + " : ");
             String name = scanner.nextLine();
             manager.addPlayer(new Player(name));
         }
