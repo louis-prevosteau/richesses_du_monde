@@ -6,6 +6,9 @@ import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -106,28 +109,27 @@ public class CommandInvokerTest {
                 new TestCommand(true, "Commande 2")
         );
 
+        Logger logger =
+                Logger.getLogger(CommandInvoker.class.getName());
+
         ByteArrayOutputStream output =
                 new ByteArrayOutputStream();
 
-        PrintStream originalOut = System.out;
+        StreamHandler handler =
+                new StreamHandler(output, new SimpleFormatter());
 
-        System.setOut(new PrintStream(output));
+        logger.addHandler(handler);
 
-        try {
-            invoker.showHistory();
-        } finally {
-            System.setOut(originalOut);
-        }
+        invoker.showHistory();
 
-        String result = output.toString();
+        handler.flush();
 
-        assertTrue(
-                result.contains("- Commande 1")
-        );
+        String logs = output.toString();
 
-        assertTrue(
-                result.contains("- Commande 2")
-        );
+        assertTrue(logs.contains("Commande 1"));
+        assertTrue(logs.contains("Commande 2"));
+
+        logger.removeHandler(handler);
     }
 
     private static class TestCommand implements ICommand {
