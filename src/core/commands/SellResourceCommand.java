@@ -3,6 +3,7 @@ package core.commands;
 import core.manager.GameManager;
 import core.models.Player;
 import core.products.IProduct;
+import core.strategies.AuctionResult;
 
 import java.util.List;
 import java.util.Scanner;
@@ -48,7 +49,45 @@ public class SellResourceCommand implements ICommand {
 
     @Override
     public void execute() {
+        AuctionResult result = runAction();
 
+        if (result.highestBidder() == null) {
+            returnProductsToShop();
+            return;
+        }
+        transferProducts(result.highestBidder(), result.finalPrice());
+    }
+
+    private void transferProducts(Player player, int price) {
+        player.pay(price);
+        seller.receive(price);
+
+        for (IProduct product : products) {
+            seller.removeProperty(product);
+            player.addProperty(product);
+            product.setOwner(player);
+        }
+
+        GameManager
+                .getInstance()
+                .notifyPlayerSold(seller, player, products.getFirst().getResource(), products.size(), price);
+    }
+
+    private void returnProductsToShop() {
+        System.out.println(
+                "Aucune enchère. Les produits retournent au magasin."
+        );
+
+        for (IProduct product : products) {
+            seller.removeProperty(product);
+            product.setOwner(null);
+            GameManager.getInstance()
+                    .getShop()
+                    .addProduct(product);
+        }
+    }
+
+    private AuctionResult runAction() {
         List<Player> players =
                 GameManager.getInstance().getPlayers();
 
@@ -61,36 +100,9 @@ public class SellResourceCommand implements ICommand {
             bidPlaced = false;
 
             for (Player player : players) {
+                int bid = askBid(player, currentPrice);
 
-                if (player.equals(seller)) {
-                    continue;
-                }
-
-                System.out.println(
-                        "\n" + player.getName()
-                                + ", voulez-vous enchérir ?"
-                );
-
-                System.out.println(
-                        "Prix actuel : " + currentPrice + " €"
-                );
-
-                System.out.print(
-                        "Montant (> "
-                                + currentPrice
-                                + ", 0 pour passer) : "
-                );
-
-                int bid;
-
-                try {
-                    bid = Integer.parseInt(scanner.nextLine());
-                } catch (NumberFormatException e) {
-                    bid = 0;
-                }
-
-                if (bid > currentPrice
-                        && player.getMoney() >= bid) {
+                if (isValidBid(player, bid, currentPrice)) {
 
                     currentPrice = bid;
                     highestBidder = player;
@@ -107,35 +119,40 @@ public class SellResourceCommand implements ICommand {
 
         } while (bidPlaced);
 
-        if (highestBidder == null) {
+        return new AuctionResult(highestBidder, currentPrice);
+    }
 
-            System.out.println(
-                    "Aucune enchère. Les produits retournent au magasin."
-            );
+    private boolean isValidBid(Player player, int bid, int currentPrice) {
+        return bid > currentPrice
+                && player.getMoney() >= bid;
 
-            for (IProduct product : products) {
-                seller.removeProperty(product);
-                product.setOwner(null);
-                GameManager.getInstance()
-                        .getShop()
-                        .addProduct(product);
-            }
+    }
 
-            return;
+    private int askBid(Player player, int price) {
+        if (player.equals(seller)) {
+            return 0;
         }
 
-        highestBidder.pay(currentPrice);
-        seller.receive(currentPrice);
+        System.out.println(
+                "\n" + player.getName()
+                        + ", voulez-vous enchérir ?"
+        );
 
-        for (IProduct product : products) {
-            seller.removeProperty(product);
-            highestBidder.addProperty(product);
-            product.setOwner(highestBidder);
+        System.out.println(
+                "Prix actuel : " + price + " €"
+        );
+
+        System.out.print(
+                "Montant (> "
+                        + price
+                        + ", 0 pour passer) : "
+        );
+
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return 0;
         }
-
-        GameManager
-                .getInstance()
-                .notifyPlayerSold(seller, highestBidder, products.getFirst().getResource(), products.size(), currentPrice);
     }
 
     @Override
