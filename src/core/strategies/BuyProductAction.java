@@ -198,7 +198,7 @@ public class BuyProductAction implements ISquareAction {
                 "-1 - Terminer les achats"
         );
 
-        System.out.print("> ");
+        logger.info("> ");
 
         try {
 

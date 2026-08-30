@@ -8,10 +8,12 @@ import core.products.IProduct;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class SellResourceAction implements ISquareAction {
 
     private final Scanner scanner;
+    private static final Logger logger = Logger.getLogger(SellResourceAction.class.getName());
 
     public SellResourceAction() {
         this(new Scanner(System.in));
@@ -41,19 +43,19 @@ public class SellResourceAction implements ISquareAction {
         List<AuctionLot> lots = getLots(player);
 
         if (lots.isEmpty()) {
-            System.out.println("Aucune ressource à vendre.");
+            logger.info("Aucune ressource à vendre.");
             return;
         }
 
-        System.out.println("\n=== VENTE AUX ENCHÈRES ===");
-        System.out.println("Choisissez la ressource à vendre :");
+        logger.info("\n=== VENTE AUX ENCHÈRES ===");
+        logger.info("Choisissez la ressource à vendre :");
 
         showLots(lots);
 
         int choice = getPlayerChoice(lots.size());
 
         if (choice == -1) {
-            System.out.println("Vente annulée.");
+            logger.warning("Vente annulée.");
             return;
         }
 
@@ -69,7 +71,7 @@ public class SellResourceAction implements ISquareAction {
                         )
                 );
 
-        System.out.println(
+        logger.info(
                 selectedLot.products().size()
                         + " produit(s) "
                         + selectedLot.resource()
@@ -81,7 +83,7 @@ public class SellResourceAction implements ISquareAction {
 
     private int getPlayerChoice(int maxChoice) {
         while (true) {
-            System.out.print(
+            logger.info(
                     "Choisissez un lot à vendre (0-"
                             + (maxChoice - 1)
                             + ", -1 pour annuler) : "
@@ -97,10 +99,10 @@ public class SellResourceAction implements ISquareAction {
                     return choice;
                 }
 
-                System.out.println("Choix invalide.");
+                logger.info("Choix invalide.");
 
             } catch (NumberFormatException e) {
-                System.out.println("Veuillez saisir un nombre.");
+                logger.info("Veuillez saisir un nombre.");
             }
         }
     }
@@ -108,12 +110,8 @@ public class SellResourceAction implements ISquareAction {
     private void showLots(List<AuctionLot> lots) {
         for (int i = 0; i < lots.size(); i++) {
             AuctionLot lot = lots.get(i);
-            System.out.printf(
-                    "%d - %s (%d produits) - Mise à prix : %,d €%n",
-                    i,
-                    lot.resource(),
-                    lot.products().size(),
-                    lot.startingPrice()
+            logger.info(
+                    i + " - " + lot.resource() + " (" + lot.products().size() + " produits) - Mise à prix : %, " + lot.startingPrice() + " €"
             );
         }
     }

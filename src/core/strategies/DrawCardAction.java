@@ -1,13 +1,17 @@
 package core.strategies;
 
 import core.commands.DrawCardCommand;
+import core.commands.SellResourceCommand;
 import core.enums.CardType;
 import core.manager.GameManager;
 import core.models.Player;
 
+import java.util.logging.Logger;
+
 public class DrawCardAction implements ISquareAction {
 
     private final CardType type;
+    private static final Logger logger = Logger.getLogger(DrawCardAction.class.getName());
 
     public DrawCardAction(CardType type) {
         this.type = type;
@@ -20,7 +24,7 @@ public class DrawCardAction implements ISquareAction {
 
     @Override
     public void execute(Player player) {
-        System.out.println(getDescription());
+        logger.info(getDescription());
         GameManager
                 .getInstance()
                 .getInvoker()
