@@ -20,6 +20,6 @@ public class GoSquare implements ISquare {
 
     @Override
     public void landOn(Player player) {
-
+        // Aucun effet lorsque le joueur s'arrête sur la case Départ.
     }
 }
