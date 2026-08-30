@@ -11,21 +11,23 @@ import java.util.List;
 
 public class ScoreboardObserver implements IGameObserver {
 
+    public static final String SCOREBOARD = "[SCOREBOARD] ";
+
     @Override
     public void onPlayerMoved(Player player, int position) {
         Board board = GameManager.getInstance().getBoard();
-        System.out.println("[SCOREBOARD] " + player.getName() + " est maintenant sur la case " + board.getSquare(position).getName());
+        System.out.println(SCOREBOARD + player.getName() + " est maintenant sur la case " + board.getSquare(position).getName());
     }
 
     @Override
     public void onProductBought(Player player, IProduct product) {
         updatePlayerScore(player);
-        System.out.println("[SCOREBOARD] " + player.getName() + " a acheté " + product.getResource().getName() + " : " + product.getPercentage()+ "% - Provenance : " + product.getRegion() + " pour " + product.getPrice() + " €");
+        System.out.println(SCOREBOARD + player.getName() + " a acheté " + product.getResource().getName() + " : " + product.getPercentage()+ "% - Provenance : " + product.getRegion() + " pour " + product.getPrice() + " €");
     }
 
     @Override
     public void onPlayerBankrupt(Player player) {
-        System.out.println("[SCOREBOARD] " + player.getName() + " a fait faillite");
+        System.out.println(SCOREBOARD + player.getName() + " a fait faillite");
         displayFinalScore(player);
     }
 
@@ -72,17 +74,17 @@ public class ScoreboardObserver implements IGameObserver {
     public void onProductSold(Player seller, Player buyer, Resource resource, int productsSize, int price) {
         updatePlayerScore(seller);
         updatePlayerScore(buyer);
-        System.out.println("[SCOREBOARD] " + seller.getName() + " a vendu " + resource.getName() + "(" + productsSize + " produit(s))" + " pour " + price + " €");
-        System.out.println("[SCOREBOARD] " + buyer.getName() + " remporte l'enchère");
+        System.out.println(SCOREBOARD + seller.getName() + " a vendu " + resource.getName() + "(" + productsSize + " produit(s))" + " pour " + price + " €");
+        System.out.println(SCOREBOARD + buyer.getName() + " remporte l'enchère");
     }
 
     @Override
     public void onCardDrawn(Player player, ICard card) {
-        System.out.println("[SCOREBOARD] " + player.getName() + " a tirer une carte " + card.getType().getName());
+        System.out.println(SCOREBOARD + player.getName() + " a tirer une carte " + card.getType().getName());
     }
 
     @Override
     public void onJokerUsed(Player player) {
-        System.out.println("[SCOREBOARD] " + player.getName() + " a utilisé un joker");
+        System.out.println(SCOREBOARD + player.getName() + " a utilisé un joker");
     }
 }
