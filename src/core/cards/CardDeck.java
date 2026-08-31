@@ -40,10 +40,6 @@ public class CardDeck implements Iterable<ICard> {
         return cards.isEmpty();
     }
 
-    public int getSize() {
-        return cards.size();
-    }
-
     @Override
     public Iterator<ICard> iterator() {
         return new CardIterator();
