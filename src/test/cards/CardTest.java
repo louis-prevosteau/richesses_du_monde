@@ -171,4 +171,11 @@ public class CardTest {
                 player.getJokers().size()
         );
     }
+
+    @Test
+    @DisplayName("Une carte avec un type non défini lève une exception lors de la remise dans un paquet")
+    void testReturnToDeckThrowsExceptionWhenTypeIsNull() {
+        ICard card = new ReceiveCard("Test", null, new int[] {1000000}, null);
+        assertThrows(IllegalArgumentException.class, card::returnToDeck);
+    }
 }
