@@ -257,7 +257,7 @@ public class SquareActionTest {
         player.addProperty(product2);
         String input = "0\n";
 
-        SellResourceAction action =
+        action =
                 new SellResourceAction(
                         new Scanner(
                                 new ByteArrayInputStream(
@@ -330,7 +330,7 @@ public class SquareActionTest {
     @Test
     @DisplayName("execute ne doit pas lever d'exception avec une carte NEWS")
     void testExecuteNews() {
-        DrawCardAction action =
+        action =
                 new DrawCardAction(CardType.NEWS);
 
         assertDoesNotThrow(() ->
@@ -351,7 +351,7 @@ public class SquareActionTest {
         Scanner scanner =
                 new Scanner(new StringReader("0\n-1\n"));
 
-        BuyProductAction action =
+        action =
                 new BuyProductAction(
                         Continent.AFRICA,
                         null,
@@ -387,7 +387,7 @@ public class SquareActionTest {
         Scanner scanner =
                 new Scanner(new StringReader("-1\n"));
 
-        BuyProductAction action =
+        action =
                 new BuyProductAction(
                         Continent.AFRICA,
                         null,
@@ -425,7 +425,7 @@ public class SquareActionTest {
                         new StringReader("999\n-1\n")
                 );
 
-        BuyProductAction action =
+        action =
                 new BuyProductAction(
                         Continent.AFRICA,
                         null,
@@ -458,7 +458,7 @@ public class SquareActionTest {
                         )
                 );
 
-        BuyProductAction action =
+        action =
                 new BuyProductAction(
                         null,
                         null,
