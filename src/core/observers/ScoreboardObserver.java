@@ -1,6 +1,5 @@
 package core.observers;
 
-import core.cards.CardDeck;
 import core.cards.ICard;
 import core.enums.Resource;
 import core.manager.GameManager;

@@ -55,6 +55,16 @@ public class CommandTest {
     }
 
     @Test()
+    @DisplayName("RollDiceCommand : si un joueur fait un double, il paie 1000000 * total des points")
+    void testRollDiceCommandPlayerPayWhenRollDouble() {
+        TestPlayer testPlayer = new TestPlayer();
+        int initMoney = testPlayer.getMoney();
+        command = new RollDiceCommand(testPlayer);
+        command.execute();
+        assertEquals(initMoney - (testPlayer.getDice2() * 1000000), testPlayer.getMoney());
+    }
+
+    @Test()
     @DisplayName("MoveCommand modifie la position du joueur")
     void testMoveCommand_4_SetPlayerPositionTo4() {
         int initPosition = player.getPosition();
@@ -81,5 +91,27 @@ public class CommandTest {
         command = new DrawCardCommand(player, CardType.NEWS);
         command.execute();
         assertDoesNotThrow(() -> command.execute());
+    }
+
+    class TestPlayer extends Player {
+
+        public TestPlayer() {
+            super("Alice");
+        }
+
+        @Override
+        public int roll() {
+            return 8;
+        }
+
+        @Override
+        public boolean isDouble() {
+            return true;
+        }
+
+        @Override
+        public int getDice2() {
+            return 4;
+        }
     }
 }

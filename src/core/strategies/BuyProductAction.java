@@ -1,6 +1,5 @@
 package core.strategies;
 
-import core.cards.CardDeck;
 import core.commands.BuyProductCommand;
 import core.enums.Continent;
 import core.enums.Region;

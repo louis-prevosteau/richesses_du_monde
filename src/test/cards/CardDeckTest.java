@@ -1,7 +1,6 @@
 package test.cards;
 
 import core.cards.CardDeck;
-import core.cards.ICard;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;

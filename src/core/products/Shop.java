@@ -1,6 +1,5 @@
 package core.products;
 
-import core.cards.CardDeck;
 import core.enums.Continent;
 import core.enums.Region;
 

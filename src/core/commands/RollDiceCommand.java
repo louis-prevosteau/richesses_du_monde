@@ -1,6 +1,5 @@
 package core.commands;
 
-import core.cards.CardDeck;
 import core.models.Player;
 
 import java.util.logging.Logger;

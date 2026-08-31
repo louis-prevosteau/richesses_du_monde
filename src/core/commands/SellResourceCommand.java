@@ -1,6 +1,5 @@
 package core.commands;
 
-import core.cards.CardDeck;
 import core.manager.GameManager;
 import core.models.Player;
 import core.products.IProduct;

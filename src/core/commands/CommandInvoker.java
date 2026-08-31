@@ -1,7 +1,5 @@
 package core.commands;
 
-import core.cards.CardDeck;
-
 import java.util.Stack;
 import java.util.logging.Logger;
 

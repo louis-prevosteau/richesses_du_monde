@@ -1,6 +1,5 @@
 package core.models;
 
-import core.cards.CardDeck;
 import core.cards.JokerCard;
 import core.enums.Resource;
 import core.manager.GameManager;
