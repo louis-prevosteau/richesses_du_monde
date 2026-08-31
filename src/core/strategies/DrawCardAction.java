@@ -1,7 +1,6 @@
 package core.strategies;
 
 import core.commands.DrawCardCommand;
-import core.commands.SellResourceCommand;
 import core.enums.CardType;
 import core.manager.GameManager;
 import core.models.Player;

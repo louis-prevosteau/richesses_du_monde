@@ -1,7 +1,6 @@
 package core.cards;
 
 import core.commands.PayCommand;
-import core.commands.ReceiveCommand;
 import core.enums.CardType;
 import core.enums.Resource;
 import core.manager.GameManager;

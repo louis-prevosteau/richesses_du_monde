@@ -9,7 +9,6 @@ import core.models.Player;
 import core.products.IProduct;
 import core.products.Product;
 import core.products.ProductFactory;
-import core.products.Shop;
 import core.strategies.*;
 import org.junit.jupiter.api.*;
 
@@ -26,14 +25,12 @@ public class SquareActionTest {
 
     private ISquareAction action;
     private Player player;
-    private Shop shop;
 
     @BeforeEach()
     void setUp() {
         GameManager.getInstance().reset();
         player = new Player("Alice");
         GameManager.getInstance().addPlayer(player);
-        shop = GameManager.getInstance().getShop();
     }
 
     @Test()
@@ -344,17 +341,6 @@ public class SquareActionTest {
     @Test
     @DisplayName("Le joueur peut acheter un produit puis arrêter")
     void executeCanBuyOneProduct() {
-
-        List<IProduct> products =
-                shop.getProducts(
-                                Continent.AFRICA,
-                                null
-                        )
-                        .values()
-                        .stream()
-                        .flatMap(List::stream)
-                        .toList();
-
         int propertiesBefore =
                 player.getProperties()
                         .values()
