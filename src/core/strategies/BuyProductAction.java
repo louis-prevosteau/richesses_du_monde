@@ -59,10 +59,7 @@ public class BuyProductAction implements ISquareAction {
         int purchasesThisTurn = 0;
 
         while (purchasesThisTurn < 6) {
-
-            List<IProduct> availableProducts =
-                    getAvailableProducts();
-
+            List<IProduct> availableProducts = getAvailableProducts();
             if (availableProducts.isEmpty()) {
                 logger.info(
                         "Aucun produit disponible."
@@ -70,8 +67,7 @@ public class BuyProductAction implements ISquareAction {
                 return;
             }
 
-            int response =
-                    getPlayerChoice(availableProducts);
+            int response = getPlayerChoice(availableProducts);
 
             if (response == -1) {
                 logger.info(
@@ -89,13 +85,10 @@ public class BuyProductAction implements ISquareAction {
                 continue;
             }
 
-            IProduct product =
-                    availableProducts.get(response);
-
+            IProduct product = availableProducts.get(response);
             GameManager.getInstance()
                     .getShop()
                     .removeProduct(product);
-
             GameManager.getInstance()
                     .getInvoker()
                     .executeCommand(

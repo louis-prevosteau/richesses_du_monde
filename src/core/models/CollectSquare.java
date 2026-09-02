@@ -23,15 +23,9 @@ public class CollectSquare implements ISquare {
 
     private Resource getRandomResource() {
         List<Resource> availableResources = Arrays.stream(Resource.values()).toList();
-        if (availableResources.isEmpty()) {
-            throw new IllegalStateException(
-                    "Toutes les ressources ont déjà été attribuées 2 fois."
-            );
-        }
-        Resource resource = availableResources.get(
+        return availableResources.get(
                 ThreadLocalRandom.current().nextInt(availableResources.size())
         );
-        return resource;
     }
 
     @Override
